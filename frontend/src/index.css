@@ -2130,110 +2130,6 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
-
-/* Automated Job Recommendations styles */
-.section-divider {
-  height: 1px;
-  background-color: hsl(var(--border-color));
-  margin: 40px 0 24px 0;
-  width: 100%;
-}
-
-.recs-pill {
-  background-color: hsl(var(--success-light));
-  color: hsl(var(--success));
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.recs-subtitle-row {
-  margin-top: -12px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  color: hsl(var(--text-muted));
-}
-
-.recs-subtitle-row strong {
-  color: hsl(var(--text-main));
-}
-
-.recommended-job-card {
-  border: 1px solid hsla(var(--success), 0.15);
-  background-color: hsla(142, 70%, 98%, 0.4);
-}
-
-.recommended-job-card:hover {
-  border-color: hsl(var(--success) / 0.35);
-  box-shadow: 0 8px 30px hsla(var(--success), 0.04);
-}
-
-.badge-recommended {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 4px 10px;
-  border-radius: 12px;
-  display: inline-block;
-  background-color: hsl(var(--success-light));
-  color: hsl(var(--success));
-  margin-left: 8px;
-}
-
-.recommendation-tip-card {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 580px;
-  margin: 0 auto;
-}
-
-.recs-sparkle-icon {
-  color: hsl(var(--primary));
-  animation: pulse 2s infinite;
-}
-
-.recs-upload-btn {
-  margin-top: 16px;
-  padding: 10px 24px;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.primary-color-spinner {
-  color: hsl(var(--primary));
-}
-
-.search-results-box {
-  margin-bottom: 32px;
-}
-
-/* Authentication Validation States */
-.input-with-icon.has-error input {
-  border-color: hsl(var(--danger)) !important;
-  box-shadow: 0 0 0 2px hsla(var(--danger), 0.15) !important;
-}
-
-.input-with-icon.has-error .input-icon {
-  color: hsl(var(--danger)) !important;
-}
-
-.field-error-message {
-  color: hsl(var(--danger));
-  font-size: 12px;
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 500;
-  animation: fadeInUp 0.2s ease forwards;
-}
-
 /* UI/UX Modern Utility Classes */
 .workspace-layout {
   display: flex;
@@ -2404,4 +2300,107 @@ textarea {
   font-weight: 500;
   color: hsl(var(--text-main));
   animation: pulse 1.5s infinite;
+}
+
+/* Automated Job Recommendations styles */
+.section-divider {
+  height: 1px;
+  background-color: hsl(var(--border-color));
+  margin: 40px 0 24px 0;
+  width: 100%;
+}
+
+.recs-pill {
+  background-color: hsl(var(--success-light));
+  color: hsl(var(--success));
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.recs-subtitle-row {
+  margin-top: -12px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: hsl(var(--text-muted));
+}
+
+.recs-subtitle-row strong {
+  color: hsl(var(--text-main));
+}
+
+.recommended-job-card {
+  border: 1px solid hsla(var(--success), 0.15);
+  background-color: hsla(142, 70%, 98%, 0.4);
+}
+
+.recommended-job-card:hover {
+  border-color: hsl(var(--success) / 0.35);
+  box-shadow: 0 8px 30px hsla(var(--success), 0.04);
+}
+
+.badge-recommended {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: inline-block;
+  background-color: hsl(var(--success-light));
+  color: hsl(var(--success));
+  margin-left: 8px;
+}
+
+.recommendation-tip-card {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.recs-sparkle-icon {
+  color: hsl(var(--primary));
+  animation: pulse 2s infinite;
+}
+
+.recs-upload-btn {
+  margin-top: 16px;
+  padding: 10px 24px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.primary-color-spinner {
+  color: hsl(var(--primary));
+}
+
+.search-results-box {
+  margin-bottom: 32px;
+}
+
+/* Authentication Validation States */
+.input-with-icon.has-error input {
+  border-color: hsl(var(--danger)) !important;
+  box-shadow: 0 0 0 2px hsla(var(--danger), 0.15) !important;
+}
+
+.input-with-icon.has-error .input-icon {
+  color: hsl(var(--danger)) !important;
+}
+
+.field-error-message {
+  color: hsl(var(--danger));
+  font-size: 12px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  animation: fadeInUp 0.2s ease forwards;
 }
