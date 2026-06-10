@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../utils/api';
 import { 
   Sparkles, Percent, Clock, DollarSign, RefreshCw, 
-  AlertTriangle, CheckCircle, HelpCircle, FileSpreadsheet, FileText 
+  AlertTriangle, CheckCircle, HelpCircle, FileSpreadsheet, FileText, Cpu, Layers
 } from 'lucide-react';
 
 export default function AdminAnalytics() {
@@ -41,8 +41,10 @@ export default function AdminAnalytics() {
 
   if (error) {
     return (
-      <div className="p-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex gap-3 max-w-xl mx-auto my-12">
-        <AlertTriangle size={24} className="flex-shrink-0" />
+      <div className="p-6 rounded cyber-card border border-[#FF4D6D]/30 bg-[#FF4D6D]/5 text-[#FF4D6D] text-xs font-mono flex gap-3 max-w-xl mx-auto my-12 relative">
+        <div className="cyber-corner-tr" />
+        <div className="cyber-corner-bl" />
+        <AlertTriangle size={24} className="flex-shrink-0 text-[#FF4D6D] animate-pulse" />
         <div>
           <h4 className="font-bold">Telemetry Error</h4>
           <p className="text-xs mt-1">{error}</p>
@@ -61,7 +63,8 @@ export default function AdminAnalytics() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      
+      {/* Header Banner */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-heading font-extrabold text-text-main tracking-tight">AI Analytics Dashboard</h1>
@@ -69,7 +72,7 @@ export default function AdminAnalytics() {
         </div>
         <button 
           onClick={fetchAnalytics}
-          className="px-4 py-2.5 rounded-lg bg-surface border border-border-dark text-xs font-semibold text-text-main hover:text-primary hover:border-primary/40 transition-all flex items-center gap-2 cursor-pointer"
+          className="px-4 py-2.5 rounded bg-[#0b1120] hover:border-[#00FFF0]/40 border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main hover:text-[#00FFF0] transition-all flex items-center gap-2 cursor-pointer uppercase tracking-wider"
         >
           <RefreshCw size={14} />
           <span>Sync Logs</span>
@@ -78,46 +81,51 @@ export default function AdminAnalytics() {
 
       {/* Primary KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="p-6 glass-card border border-border-dark flex items-center gap-5 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent pointer-events-none"></div>
-          <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center glow-primary">
-            <Sparkles size={22} />
+        
+        <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative overflow-hidden flex items-center gap-5">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          <div className="w-12 h-12 rounded bg-purple-500/10 border border-purple-500/35 text-purple-400 flex items-center justify-center shadow-[0_0_8px_rgba(168,85,247,0.2)]">
+            <Cpu size={22} className="animate-pulse" />
           </div>
-          <div>
-            <p className="text-2xl font-heading font-extrabold text-text-main">{totalGemini}</p>
+          <div className="font-mono">
+            <p className="text-2xl font-heading font-black text-text-main tracking-wider">{totalGemini}</p>
             <p className="text-xs font-medium text-text-muted mt-0.5">Gemini Requests</p>
           </div>
         </div>
 
-        <div className="p-6 glass-card border border-border-dark flex items-center gap-5 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-tr from-secondary/5 to-transparent pointer-events-none"></div>
-          <div className="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center glow-secondary">
-            <Sparkles size={22} />
+        <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative overflow-hidden flex items-center gap-5">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          <div className="w-12 h-12 rounded bg-cyan/10 border border-cyan/35 text-[#00FFF0] flex items-center justify-center shadow-[0_0_8px_rgba(0,229,255,0.2)]">
+            <Cpu size={22} className="animate-pulse" />
           </div>
-          <div>
-            <p className="text-2xl font-heading font-extrabold text-text-main">{totalGroq}</p>
+          <div className="font-mono">
+            <p className="text-2xl font-heading font-black text-text-main tracking-wider">{totalGroq}</p>
             <p className="text-xs font-medium text-text-muted mt-0.5">Groq Requests</p>
           </div>
         </div>
 
-        <div className="p-6 glass-card border border-border-dark flex items-center gap-5 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-tr from-green-500/5 to-transparent pointer-events-none"></div>
-          <div className="w-12 h-12 rounded-xl bg-green-500/10 text-green-400 flex items-center justify-center">
+        <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative overflow-hidden flex items-center gap-5">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          <div className="w-12 h-12 rounded bg-[#00FF9D]/10 border border-[#00FF9D]/35 text-[#00FF9D] flex items-center justify-center shadow-[0_0_8px_rgba(0,255,157,0.2)]">
             <Percent size={22} />
           </div>
-          <div>
-            <p className="text-2xl font-heading font-extrabold text-text-main">{successRate}%</p>
+          <div className="font-mono">
+            <p className="text-2xl font-heading font-black text-text-main tracking-wider">{successRate}%</p>
             <p className="text-xs font-medium text-red-400 mt-0.5">{failedRequests} outages logged</p>
           </div>
         </div>
 
-        <div className="p-6 glass-card border border-border-dark flex items-center gap-5 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/5 to-transparent pointer-events-none"></div>
-          <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+        <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative overflow-hidden flex items-center gap-5">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          <div className="w-12 h-12 rounded bg-amber-500/10 border border-amber-500/35 text-amber-400 flex items-center justify-center shadow-[0_0_8px_rgba(245,158,11,0.2)]">
             <Clock size={22} />
           </div>
-          <div>
-            <p className="text-2xl font-heading font-extrabold text-text-main">{averageLatency} ms</p>
+          <div className="font-mono">
+            <p className="text-2xl font-heading font-black text-text-main tracking-wider">{averageLatency} ms</p>
             <p className="text-xs font-medium text-text-muted mt-0.5">Avg delivery latency</p>
           </div>
         </div>
@@ -126,17 +134,20 @@ export default function AdminAnalytics() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         {/* Cost Summary Card */}
-        <div className="p-6 glass-card border border-border-dark flex flex-col justify-between min-h-[300px]">
+        <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/50 relative flex flex-col justify-between min-h-[300px]">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          
           <div>
             <h3 className="font-heading font-bold text-base text-text-main">Token Usage & SLA Cost</h3>
-            <div className="flex items-baseline gap-2 my-6">
-              <span className="text-5xl font-heading font-extrabold text-text-main tracking-tight glow-primary">
+            <div className="flex items-baseline gap-2 my-6 font-mono">
+              <span className="text-5xl font-heading font-black text-text-main tracking-wider drop-shadow-[0_0_10px_rgba(248,250,252,0.15)]">
                 ${estimatedCost.toFixed(5)}
               </span>
               <span className="text-xs font-bold text-text-muted uppercase">USD</span>
             </div>
             
-            <p className="text-xs text-text-muted leading-relaxed">
+            <p className="text-xs text-text-muted leading-relaxed font-sans">
               Pricing calculations are aggregated using standard token models:
             </p>
             <ul className="list-disc pl-5 text-[11px] text-text-muted space-y-1 mt-2.5 leading-relaxed">
@@ -153,7 +164,10 @@ export default function AdminAnalytics() {
         </div>
 
         {/* Action Panel for Raw Exports */}
-        <div className="p-6 glass-card border border-border-dark flex flex-col justify-between min-h-[300px]">
+        <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/50 relative flex flex-col justify-between min-h-[300px]">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          
           <div>
             <h3 className="font-heading font-bold text-base text-text-main">Raw Telemetry Logs Export</h3>
             <p className="text-xs text-text-muted leading-relaxed mt-4">
@@ -161,22 +175,22 @@ export default function AdminAnalytics() {
             </p>
           </div>
           
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-3 font-mono">
             <a 
               href="http://localhost:3000/api/admin/export/analytics?format=xlsx" 
               download 
-              className="w-full py-2.5 px-3 rounded-lg bg-surface hover:bg-surface/85 border border-border-dark text-xs font-semibold text-text-main flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              className="w-full py-2.5 px-3 rounded bg-[#0b1120] hover:border-[#00FFF0] border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main flex items-center justify-center gap-2 transition-all cursor-pointer hover:text-[#00FFF0]"
             >
-              <FileSpreadsheet size={15} className="text-primary" />
+              <FileSpreadsheet size={15} className="text-[#00FFF0]" />
               <span>Download Excel Ledger</span>
             </a>
             
             <a 
               href="http://localhost:3000/api/admin/export/analytics?format=pdf" 
               download 
-              className="w-full py-2.5 px-3 rounded-lg bg-surface hover:bg-surface/85 border border-border-dark text-xs font-semibold text-text-main flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              className="w-full py-2.5 px-3 rounded bg-[#0b1120] hover:border-[#00FFF0] border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main flex items-center justify-center gap-2 transition-all cursor-pointer hover:text-[#00FFF0]"
             >
-              <FileText size={15} className="text-primary" />
+              <FileText size={15} className="text-[#00FFF0]" />
               <span>Download PDF Audit</span>
             </a>
           </div>

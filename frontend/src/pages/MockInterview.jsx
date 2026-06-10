@@ -28,7 +28,13 @@ import {
   Play,
   Square,
   Trash2,
-  Keyboard
+  Keyboard,
+  Cpu,
+  Server,
+  Terminal,
+  Activity,
+  Layers,
+  Flame
 } from 'lucide-react';
 
 export default function MockInterview() {
@@ -342,15 +348,15 @@ export default function MockInterview() {
 
   // Scoring helpers
   const getScoreColorClass = (score) => {
-    if (score >= 80) return 'bg-green-500/10 border-green-500/20 text-green-400';
-    if (score >= 60) return 'bg-amber-500/10 border-amber-500/20 text-amber-400';
-    return 'bg-red-500/10 border-red-500/20 text-red-400';
+    if (score >= 80) return 'bg-[#00FF9D]/5 border-[#00FF9D]/20 text-[#00FF9D]';
+    if (score >= 60) return 'bg-[#FFD93D]/5 border-[#FFD93D]/20 text-[#FFD93D]';
+    return 'bg-[#FF4D6D]/5 border-[#FF4D6D]/20 text-[#FF4D6D]';
   };
 
   const getStrokeColor = (score) => {
-    if (score >= 80) return '#10b981';
-    if (score >= 60) return '#f59e0b';
-    return '#ef4444';
+    if (score >= 80) return '#00FF9D';
+    if (score >= 60) return '#FFD93D';
+    return '#FF4D6D';
   };
 
   const formatDate = (dateString) => {
@@ -368,10 +374,13 @@ export default function MockInterview() {
   // ==========================================
   if (loading) {
     return (
-      <div className="p-8 md:p-12 glass-card border border-border-dark flex items-center justify-center glow-primary max-w-lg mx-auto my-12">
+      <div className="p-8 md:p-12 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 flex items-center justify-center glow-primary max-w-lg mx-auto my-12 relative">
+        <div className="cyber-corner-tr" />
+        <div className="cyber-corner-bl" />
+        
         <div className="text-center w-full space-y-6">
-          <div className="inline-flex p-4 rounded-full bg-primary/10 border border-primary/20 text-primary animate-pulse-glow">
-            <Sparkles size={36} className="spinner" />
+          <div className="inline-flex p-4 rounded-xl bg-purple-500/10 border border-purple-500/30 text-[#00FFF0] animate-pulse">
+            <Sparkles size={36} className="spinner text-[#00FFF0]" />
           </div>
           
           {loadingStep === 1 && (
@@ -380,15 +389,15 @@ export default function MockInterview() {
               <p className="text-xs text-text-muted">Analyzing target job role details, core technologies, and projects...</p>
               <div className="space-y-2.5 pt-4 text-left max-w-xs mx-auto">
                 <div className="flex items-center gap-2.5 text-xs text-text-main font-semibold">
-                  <CheckCircle size={16} className="text-primary" />
+                  <CheckCircle size={14} className="text-[#00FF9D]" />
                   <span>Interpreting Job Description</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-xs text-primary font-semibold">
-                  <RefreshCw size={16} className="spinner" />
+                <div className="flex items-center gap-2.5 text-xs text-[#00FFF0] font-semibold">
+                  <RefreshCw size={14} className="spinner text-[#00FFF0]" />
                   <span>Mapping core keywords and tech stack</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs text-text-muted/40 font-semibold">
-                  <div className="w-4 h-4 rounded-full border border-border-dark flex-shrink-0"></div>
+                  <div className="w-3.5 h-3.5 rounded border border-[#00FFF0]/10 flex-shrink-0"></div>
                   <span>Generating custom question schemas</span>
                 </div>
               </div>
@@ -401,15 +410,15 @@ export default function MockInterview() {
               <p className="text-xs text-text-muted">Creating initial Technical concepts challenges...</p>
               <div className="space-y-2.5 pt-4 text-left max-w-xs mx-auto">
                 <div className="flex items-center gap-2.5 text-xs text-text-main font-semibold">
-                  <CheckCircle size={16} className="text-primary" />
+                  <CheckCircle size={14} className="text-[#00FF9D]" />
                   <span>Planner roadmap ready</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs text-text-main font-semibold">
-                  <CheckCircle size={16} className="text-primary" />
+                  <CheckCircle size={14} className="text-[#00FF9D]" />
                   <span>Skills analysis complete</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-xs text-primary font-semibold">
-                  <RefreshCw size={16} className="spinner" />
+                <div className="flex items-center gap-2.5 text-xs text-[#00FFF0] font-semibold">
+                  <RefreshCw size={14} className="spinner text-[#00FFF0]" />
                   <span>Composing real-world mock question</span>
                 </div>
               </div>
@@ -422,15 +431,15 @@ export default function MockInterview() {
               <p className="text-xs text-text-muted">Aggregating transcripts, checking scores, and writing recommendations...</p>
               <div className="space-y-2.5 pt-4 text-left max-w-xs mx-auto">
                 <div className="flex items-center gap-2.5 text-xs text-text-main font-semibold">
-                  <CheckCircle size={16} className="text-primary" />
+                  <CheckCircle size={14} className="text-[#00FF9D]" />
                   <span>Main evaluations finalized</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs text-text-main font-semibold">
-                  <CheckCircle size={16} className="text-primary" />
+                  <CheckCircle size={14} className="text-[#00FF9D]" />
                   <span>Transcripts processed successfully</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-xs text-primary font-semibold">
-                  <RefreshCw size={16} className="spinner" />
+                <div className="flex items-center gap-2.5 text-xs text-[#00FFF0] font-semibold">
+                  <RefreshCw size={14} className="spinner text-[#00FFF0]" />
                   <span>Compiling strengths & weaknesses dashboard</span>
                 </div>
               </div>
@@ -449,30 +458,32 @@ export default function MockInterview() {
   if (session && session.status === 'completed') {
     return (
       <div id="printable-report" className="space-y-8 max-w-5xl mx-auto pb-16">
+        
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-dark pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[#00FFF0]/15 pb-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 border border-primary/20 text-primary uppercase">
+              <span className="px-2.5 py-0.5 rounded text-[10px] font-heading font-black bg-[#00FFF0]/10 border border-[#00FFF0]/20 text-[#00FFF0] uppercase tracking-widest">
                 {session.difficulty}
               </span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-muted">
+              <span className="inline-flex items-center gap-1.5 text-xs font-mono text-text-muted">
                 📅 {formatDate(session.updatedAt)}
               </span>
             </div>
-            <h1 className="text-3xl font-heading font-extrabold text-text-main tracking-tight">Interview Performance Results</h1>
-            <p className="text-xs text-text-muted">Target Job Role: <strong className="text-text-main">{session.jobRole}</strong></p>
+            <h1 className="text-3xl font-heading font-black text-text-main tracking-widest uppercase">Interview Performance Results</h1>
+            <p className="text-xs font-mono text-text-muted uppercase">Target Job Role: <strong className="text-text-main font-bold font-heading">{session.jobRole}</strong></p>
           </div>
+          
           <div className="flex items-center gap-3 no-print">
             <button 
-              className="px-4 py-2.5 rounded-lg bg-surface hover:bg-surface/80 border border-border-dark text-xs font-semibold text-text-main transition-colors flex items-center gap-2 cursor-pointer"
+              className="px-4 py-2.5 rounded-lg bg-[#0b1120] hover:border-[#00FFF0]/40 border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main hover:text-[#00FFF0] transition-all flex items-center gap-2 cursor-pointer"
               onClick={() => window.print()}
             >
-              <FileText size={14} className="text-primary" />
+              <FileText size={14} className="text-[#00FFF0]" />
               <span>Download PDF Report</span>
             </button>
             <button 
-              className="px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-lg shadow-primary/20 transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-lg bg-gradient-to-r from-primary to-accent hover:brightness-110 text-white text-xs font-heading font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
               onClick={resetInterview}
             >
               Start New Interview
@@ -482,38 +493,44 @@ export default function MockInterview() {
 
         {/* Score Index Columns */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          <div className="md:col-span-5 p-6 glass-card border border-border-dark flex flex-col sm:flex-row items-center gap-6 justify-center">
-            <div className="progress-circle shadow-md glow-primary flex-shrink-0" style={{ '--progress': session.overallScore || 0 }}>
-              <span className="progress-text">{session.overallScore || 0}%</span>
+          <div className="md:col-span-5 cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative flex flex-col sm:flex-row items-center gap-6 justify-center">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
+            <div className="cyber-progress-circle shadow-md flex-shrink-0" style={{ '--progress': session.overallScore || 0 }}>
+              <span className="cyber-progress-text">{session.overallScore || 0}%</span>
             </div>
             <div className="space-y-1 text-center sm:text-left">
-              <h3 className="font-heading font-bold text-base text-text-main">Cumulative Performance</h3>
-              <p className="text-xs text-text-muted leading-relaxed">Your overall rating meets industry standard benchmarks for this role.</p>
+              <h3 className="font-heading font-bold text-sm text-[#00FFF0] uppercase tracking-wider">Cumulative Performance</h3>
+              <p className="text-xs text-text-muted leading-relaxed font-sans mt-1">Your overall rating meets industry standard benchmarks for this role.</p>
             </div>
           </div>
 
-          <div className="md:col-span-7 p-6 glass-card border border-border-dark flex flex-col justify-center gap-5">
+          <div className="md:col-span-7 cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative flex flex-col justify-center gap-5">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
             <div className="space-y-2">
-              <div className="flex justify-between text-xs font-semibold text-text-main">
+              <div className="flex justify-between text-xs font-heading font-bold uppercase tracking-wider text-text-main">
                 <span>Technical Proficiency</span>
                 <span style={{ color: getStrokeColor(session.technicalScore) }}>{session.technicalScore}%</span>
               </div>
-              <div className="h-2 bg-surface border border-border-dark rounded-full overflow-hidden">
+              <div className="h-2.5 bg-[#050816] border border-[#00FFF0]/10 rounded-none p-[1px] overflow-hidden">
                 <div 
-                  className="h-full rounded-full transition-all duration-1000" 
+                  className="h-full transition-all duration-1000" 
                   style={{ width: `${session.technicalScore}%`, backgroundColor: getStrokeColor(session.technicalScore) }}
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <div className="flex justify-between text-xs font-semibold text-text-main">
+              <div className="flex justify-between text-xs font-heading font-bold uppercase tracking-wider text-text-main">
                 <span>Communication & Clarity</span>
                 <span style={{ color: getStrokeColor(session.communicationScore) }}>{session.communicationScore}%</span>
               </div>
-              <div className="h-2 bg-surface border border-border-dark rounded-full overflow-hidden">
+              <div className="h-2.5 bg-[#050816] border border-[#00FFF0]/10 rounded-none p-[1px] overflow-hidden">
                 <div 
-                  className="h-full rounded-full transition-all duration-1000" 
+                  className="h-full transition-all duration-1000" 
                   style={{ width: `${session.communicationScore}%`, backgroundColor: getStrokeColor(session.communicationScore) }}
                 />
               </div>
@@ -523,30 +540,36 @@ export default function MockInterview() {
 
         {/* Strengths & Weaknesses Panel */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="p-6 glass-card border border-border-dark space-y-4">
-            <h3 className="font-heading font-bold text-base text-green-400 flex items-center gap-2">
+          <div className="cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-4">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
+            <h3 className="font-heading font-bold text-sm text-[#00FF9D] flex items-center gap-2 uppercase tracking-widest">
               <UserCheck size={18} />
               <span>Key Strengths</span>
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {session.strengths.map((str, idx) => (
-                <li key={idx} className="flex gap-2.5 text-xs text-text-muted leading-relaxed">
-                  <span className="text-green-400 font-bold flex-shrink-0">✓</span>
+                <li key={idx} className="flex gap-2.5 text-xs text-text-muted leading-relaxed font-mono">
+                  <span className="text-[#00FF9D] font-bold flex-shrink-0">✓</span>
                   <span>{str}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="p-6 glass-card border border-border-dark space-y-4">
-            <h3 className="font-heading font-bold text-base text-red-400 flex items-center gap-2">
+          <div className="cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-4">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
+            <h3 className="font-heading font-bold text-sm text-[#FF4D6D] flex items-center gap-2 uppercase tracking-widest">
               <AlertCircle size={18} />
               <span>Identified Gaps</span>
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {session.weaknesses.map((weak, idx) => (
-                <li key={idx} className="flex gap-2.5 text-xs text-text-muted leading-relaxed">
-                  <span className="text-red-400 font-bold flex-shrink-0">⚠</span>
+                <li key={idx} className="flex gap-2.5 text-xs text-text-muted leading-relaxed font-mono">
+                  <span className="text-[#FF4D6D] font-bold flex-shrink-0">⚠</span>
                   <span>{weak}</span>
                 </li>
               ))}
@@ -556,14 +579,17 @@ export default function MockInterview() {
 
         {/* Lacking Skills tags */}
         {session.lackingSkills && session.lackingSkills.length > 0 && (
-          <div className="p-6 glass-card border border-border-dark space-y-4">
-            <h3 className="font-heading font-bold text-base text-amber-400 flex items-center gap-2">
+          <div className="cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-4">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
+            <h3 className="font-heading font-bold text-sm text-[#FFD93D] flex items-center gap-2 uppercase tracking-widest">
               <TrendingUp size={18} />
               <span>Core Gaps / Key Skill Gaps</span>
             </h3>
             <div className="flex flex-wrap gap-2">
               {session.lackingSkills.map((skill, idx) => (
-                <span key={idx} className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                <span key={idx} className="px-3 py-1 rounded-none text-xs font-mono font-bold bg-[#FFD93D]/5 border border-[#FFD93D]/25 text-[#FFD93D]">
                   {skill}
                 </span>
               ))}
@@ -572,18 +598,21 @@ export default function MockInterview() {
         )}
 
         {/* Recommendations */}
-        <div className="p-6 glass-card border border-border-dark space-y-4">
-          <h3 className="font-heading font-bold text-base text-primary flex items-center gap-2">
+        <div className="cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-4">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          
+          <h3 className="font-heading font-bold text-sm text-primary flex items-center gap-2 uppercase tracking-widest">
             <BookOpen size={18} />
             <span>Actionable Learning Roadmap</span>
           </h3>
           <div className="space-y-3">
             {session.recommendations.map((rec, idx) => (
-              <div key={idx} className="flex gap-3 items-center p-3.5 rounded-lg border border-border-dark bg-surface/30">
-                <span className="w-6 h-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-xs flex-shrink-0">
+              <div key={idx} className="flex gap-3 items-center p-3.5 rounded bg-[#050816] border border-[#00FFF0]/10">
+                <span className="w-6 h-6 rounded bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-heading font-black text-xs flex-shrink-0">
                   {idx + 1}
                 </span>
-                <p className="text-xs text-text-main font-medium">{rec}</p>
+                <p className="text-xs font-mono text-text-main font-medium leading-relaxed">{rec}</p>
               </div>
             ))}
           </div>
@@ -591,29 +620,29 @@ export default function MockInterview() {
 
         {/* Transcript Panel Accordion */}
         <div className="space-y-4">
-          <h3 className="font-heading font-bold text-lg text-text-main">Full Interview Transcript</h3>
+          <h3 className="font-heading font-bold text-base text-[#00FFF0] uppercase tracking-widest">Full Interview Transcript</h3>
           <div className="space-y-3">
             {session.questions.map((q, idx) => {
               const isOpen = expandedQuestion === idx;
               return (
-                <div key={idx} className="border border-border-dark rounded-lg overflow-hidden bg-surface/30 hover:bg-surface/50 transition-colors">
+                <div key={idx} className="cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/45 hover:bg-[#0b1120]/75 transition-colors overflow-hidden">
                   <button 
-                    className="w-full flex items-center justify-between p-4 text-left font-semibold text-sm text-text-main gap-4 cursor-pointer" 
+                    className="w-full flex items-center justify-between p-4 text-left font-heading font-bold text-xs text-text-main gap-4 cursor-pointer" 
                     onClick={() => setExpandedQuestion(isOpen ? null : idx)}
                   >
                     <div className="flex flex-wrap items-center gap-2.5 min-w-0">
-                      <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider ${
-                        q.category === 'technical' ? 'bg-primary/10 border border-primary/20 text-primary' : 'bg-green-500/10 border border-green-500/20 text-green-400'
+                      <span className={`px-2 py-0.5 rounded text-[9px] uppercase font-mono tracking-widest ${
+                        q.category === 'technical' ? 'bg-primary/10 border border-primary/20 text-primary' : 'bg-[#00FF9D]/10 border border-[#00FF9D]/20 text-[#00FF9D]'
                       }`}>
                         {q.category}
                       </span>
-                      <h4 className="text-xs text-text-main truncate">Q{idx + 1}: {q.topic || 'Core Concept'}</h4>
+                      <h4 className="text-xs text-text-main truncate font-mono uppercase tracking-wider">Q{idx + 1}: {q.topic || 'Core Concept'}</h4>
                     </div>
                     <div className="flex items-center gap-4 flex-shrink-0">
-                      <span className="text-xs font-bold" style={{ color: getStrokeColor(q.score) }}>
+                      <span className="text-xs font-mono font-bold" style={{ color: getStrokeColor(q.score) }}>
                         Score: {q.score}%
                       </span>
-                      {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                      {isOpen ? <ChevronUp size={16} className="text-[#00FFF0]" /> : <ChevronDown size={16} className="text-[#00FFF0]" />}
                     </div>
                   </button>
 
@@ -626,25 +655,25 @@ export default function MockInterview() {
                         transition={{ duration: 0.2, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
-                        <div className="p-4 border-t border-border-dark bg-background/40 space-y-4 text-xs">
+                        <div className="p-4 border-t border-[#00FFF0]/10 bg-[#050816]/70 space-y-4 text-xs font-mono leading-relaxed">
                           <div className="space-y-1">
-                            <span className="font-bold text-[9px] uppercase text-text-muted tracking-wider block">Question prompt</span>
-                            <p className="text-text-main font-semibold">{q.question}</p>
+                            <span className="font-bold text-[9px] uppercase text-[#00FFF0]/60 tracking-wider block">Question prompt</span>
+                            <p className="text-text-main font-semibold font-heading text-xs tracking-wider">{q.question}</p>
                           </div>
                           
-                          <div className="p-3 bg-surface/30 rounded border border-border-dark space-y-1">
+                          <div className="p-3 bg-[#0b1120] rounded border border-[#00FFF0]/10 space-y-1">
                             <span className="font-bold text-[9px] uppercase text-text-muted tracking-wider block">Your transcribed answer</span>
-                            <p className="text-text-main font-medium italic">"{q.userAnswer || 'No response provided.'}"</p>
+                            <p className="text-text-main italic font-medium">"{q.userAnswer || 'No response provided.'}"</p>
                           </div>
 
                           <div className="border-l-2 border-primary pl-3 space-y-1">
                             <span className="font-bold text-[9px] uppercase text-primary tracking-wider block">Mentor critique feedback</span>
-                            <p className="text-text-muted leading-relaxed">{q.feedback}</p>
+                            <p className="text-text-muted leading-relaxed text-[11px] font-sans">{q.feedback}</p>
                           </div>
 
-                          <div className="border-l-2 border-green-500 pl-3 space-y-1">
-                            <span className="font-bold text-[9px] uppercase text-green-400 tracking-wider block">Suggested benchmark answer</span>
-                            <p className="text-text-muted leading-relaxed italic">{q.idealAnswer}</p>
+                          <div className="border-l-2 border-[#00FF9D] pl-3 space-y-1">
+                            <span className="font-bold text-[9px] uppercase text-[#00FF9D] tracking-wider block">Suggested benchmark answer</span>
+                            <p className="text-text-muted leading-relaxed italic text-[11px] font-sans">"{q.idealAnswer}"</p>
                           </div>
                         </div>
                       </motion.div>
@@ -669,14 +698,18 @@ export default function MockInterview() {
 
     return (
       <div className="space-y-6 max-w-3xl mx-auto pb-16">
+        
         {/* Active Header */}
         <div className="flex items-center justify-between gap-4">
           <div>
-            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Active Simulator Session</span>
-            <h2 className="text-xl font-heading font-extrabold text-text-main mt-0.5">{session.jobRole}</h2>
+            <span className="text-[9px] font-heading font-black text-primary uppercase tracking-widest flex items-center gap-1.5">
+              <Activity size={10} className="text-primary animate-pulse" />
+              <span>Active Simulator Session</span>
+            </span>
+            <h2 className="text-xl font-heading font-bold text-text-main mt-0.5 tracking-wider uppercase">{session.jobRole}</h2>
           </div>
           <button 
-            className="px-3 py-1.5 rounded-lg bg-surface hover:bg-surface/80 border border-border-dark text-xs font-semibold text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+            className="px-3.5 py-1.5 rounded bg-[#0b1120] hover:border-[#FF4D6D]/45 border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-muted hover:text-[#FF4D6D] transition-colors cursor-pointer"
             onClick={resetInterview}
           >
             Quit Interview
@@ -684,35 +717,36 @@ export default function MockInterview() {
         </div>
 
         {/* Global Progress Bar */}
-        <div className="h-1.5 bg-surface border border-border-dark rounded-full overflow-hidden">
+        <div className="h-2 bg-[#0b1120] border border-[#00FFF0]/15 p-[1px] rounded-none overflow-hidden">
           <div 
-            className="h-full bg-primary transition-all duration-300 rounded-full" 
+            className="h-full bg-gradient-to-r from-primary via-accent to-secondary transition-all duration-300" 
             style={{ width: `${progressPercent}%` }}
           />
         </div>
 
         {/* Interviewer holographic chat bubble */}
-        <div className="p-6 md:p-8 glass-card border border-border-dark space-y-6 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent pointer-events-none"></div>
+        <div className="cyber-card p-6 md:p-8 border border-[#00FFF0]/15 bg-[#0b1120]/80 space-y-6 relative overflow-hidden">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          <div className="scanner-line opacity-10" />
           
-          <div className="flex items-center justify-between gap-4">
-            <span className={`px-2.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider ${
-              currentQuestion.category === 'technical' ? 'bg-primary/10 border border-primary/20 text-primary' : 'bg-green-500/10 border border-green-500/20 text-green-400'
+          <div className="flex items-center justify-between gap-4 relative z-10">
+            <span className={`px-2.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-widest ${
+              currentQuestion.category === 'technical' ? 'bg-primary/15 border border-primary/30 text-primary' : 'bg-[#00FF9D]/15 border border-[#00FF9D]/30 text-[#00FF9D]'
             }`}>
               {currentQuestion.category} Question
             </span>
-            <span className="text-xs font-semibold text-text-muted">
+            <span className="text-xs font-mono text-text-muted uppercase tracking-wider">
               Question {currentQuestionIndex + 1} of {totalQuestions}
             </span>
           </div>
 
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-accent text-white flex items-center justify-center font-heading font-extrabold text-sm flex-shrink-0 shadow-md">
+          <div className="flex items-start gap-4 relative z-10">
+            <div className="w-11 h-11 rounded-lg bg-gradient-to-tr from-primary via-[#00FFF0] to-accent text-white flex items-center justify-center font-heading font-black text-sm flex-shrink-0 shadow-[0_0_12px_rgba(0,255,240,0.3)] animate-pulse border border-[#00FFF0]/20">
               AI
             </div>
             <div className="space-y-1">
-              <span className="text-[9px] uppercase font-bold text-text-muted tracking-wider block">AI Interviewer agent</span>
-              <p className="text-base md:text-lg font-heading font-bold text-text-main leading-relaxed">
+              <p className="text-base md:text-lg font-heading font-bold text-text-main leading-relaxed tracking-wide">
                 {currentQuestion.question}
               </p>
             </div>
@@ -720,16 +754,16 @@ export default function MockInterview() {
 
           {/* User Input Intake */}
           {!evaluationResult ? (
-            <div className="space-y-5 pt-6 border-t border-border-dark">
+            <div className="space-y-5 pt-6 border-t border-[#00FFF0]/10 relative z-10">
               
               {/* Selector toggler */}
-              <div className="flex gap-2 border-b border-border-dark pb-4">
+              <div className="flex gap-2 border-b border-[#00FFF0]/10 pb-4">
                 <button
                   type="button"
-                  className={`px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 cursor-pointer border transition-all ${
+                  className={`px-4 py-2 rounded text-xs font-heading font-bold uppercase tracking-widest flex items-center gap-1.5 cursor-pointer border transition-all ${
                     answerType === 'audio' 
-                      ? 'bg-primary/10 border-primary text-primary shadow-sm' 
-                      : 'border-border-dark bg-surface/30 text-text-muted hover:text-text-main'
+                      ? 'bg-[#00FFF0]/10 border-[#00FFF0] text-[#00FFF0] shadow-[0_0_10px_rgba(0,255,240,0.15)]' 
+                      : 'border-[#00FFF0]/15 bg-[#0b1120]/60 text-text-muted hover:text-[#00FFF0] hover:border-[#00FFF0]/40'
                   }`}
                   onClick={() => { setAnswerType('audio'); setError(''); }}
                 >
@@ -738,10 +772,10 @@ export default function MockInterview() {
                 </button>
                 <button
                   type="button"
-                  className={`px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 cursor-pointer border transition-all ${
+                  className={`px-4 py-2 rounded text-xs font-heading font-bold uppercase tracking-widest flex items-center gap-1.5 cursor-pointer border transition-all ${
                     answerType === 'text' 
-                      ? 'bg-primary/10 border-primary text-primary shadow-sm' 
-                      : 'border-border-dark bg-surface/30 text-text-muted hover:text-text-main'
+                      ? 'bg-[#00FFF0]/10 border-[#00FFF0] text-[#00FFF0] shadow-[0_0_10px_rgba(0,255,240,0.15)]' 
+                      : 'border-[#00FFF0]/15 bg-[#0b1120]/60 text-text-muted hover:text-[#00FFF0] hover:border-[#00FFF0]/40'
                   }`}
                   onClick={() => { setAnswerType('text'); setError(''); }}
                 >
@@ -753,23 +787,23 @@ export default function MockInterview() {
               {/* Text Input */}
               {answerType === 'text' ? (
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-text-main block">Type Your Response</label>
+                  <label className="text-xs font-heading font-bold uppercase tracking-widest text-[#00FFF0] block">Type your answer:</label>
                   <textarea
                     rows={5}
                     placeholder="Provide your detailed answer..."
                     value={answer}
                     onChange={(e) => setAnswer(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg bg-surface border border-border-dark text-sm text-text-main placeholder-text-muted/40 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-lg bg-[#050816] border border-[#00FFF0]/15 text-xs font-mono text-text-main placeholder-text-muted/30 focus:outline-none focus:border-[#00FFF0] focus:shadow-[0_0_15px_rgba(0,255,240,0.1)] transition-all resize-none leading-relaxed"
                   />
                 </div>
               ) : (
                 /* Voice Input & Waveforms */
-                <div className="flex flex-col items-center justify-center p-6 rounded-lg bg-surface/30 border border-border-dark space-y-4">
+                <div className="flex flex-col items-center justify-center p-6 rounded-lg bg-[#050816]/50 border border-[#00FFF0]/15 space-y-4">
                   <div className="flex items-center gap-4">
                     {!isRecording ? (
                       <button
                         type="button"
-                        className="w-14 h-14 rounded-full bg-primary hover:bg-primary-hover text-white flex items-center justify-center shadow-lg shadow-primary/20 cursor-pointer"
+                        className="w-14 h-14 rounded-full bg-gradient-to-r from-primary to-accent text-white flex items-center justify-center shadow-lg shadow-primary/20 hover:brightness-110 cursor-pointer border border-[#00FFF0]/20"
                         onClick={startRecording}
                       >
                         <Mic size={22} />
@@ -777,72 +811,73 @@ export default function MockInterview() {
                     ) : (
                       <button
                         type="button"
-                        className="w-14 h-14 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-500/20 cursor-pointer spinner"
+                        className="w-14 h-14 rounded-full bg-[#FF4D6D] text-white flex items-center justify-center shadow-lg shadow-red-500/20 cursor-pointer animate-pulse border border-[#FF4D6D]/30"
                         onClick={stopRecording}
                       >
-                        <Square size={20} />
+                        <Square size={18} />
                       </button>
                     )}
 
                     {isRecording && (
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-red-400 flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-red-400 inline-block animate-pulse" />
-                          Recording: {formatTimer(recordingSeconds)}
+                      <div className="flex flex-col font-mono">
+                        <span className="text-xs font-bold text-[#FF4D6D] flex items-center gap-1.5 uppercase tracking-widest">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#FF4D6D] inline-block animate-ping" />
+                          RECORDING: {formatTimer(recordingSeconds)}
                         </span>
                         
                         {/* Audio Waveforms bar indicator */}
-                        <div className="flex gap-1 items-end h-6 mt-1">
-                          <span className="w-1 h-3 bg-red-400 rounded animate-pulse-glow" style={{ animationDelay: '0.1s' }} />
-                          <span className="w-1 h-5 bg-red-400 rounded animate-pulse-glow" style={{ animationDelay: '0.3s' }} />
-                          <span className="w-1 h-2 bg-red-400 rounded animate-pulse-glow" style={{ animationDelay: '0.5s' }} />
-                          <span className="w-1 h-6 bg-red-400 rounded animate-pulse-glow" style={{ animationDelay: '0.2s' }} />
-                          <span className="w-1 h-4 bg-red-400 rounded animate-pulse-glow" style={{ animationDelay: '0.4s' }} />
+                        <div className="flex gap-1 items-end h-6 mt-1.5">
+                          <span className="wave-bar wave-active" style={{ animationDelay: '0.1s' }} />
+                          <span className="wave-bar wave-active" style={{ animationDelay: '0.3s' }} />
+                          <span className="wave-bar wave-active" style={{ animationDelay: '0.5s' }} />
+                          <span className="wave-bar wave-active" style={{ animationDelay: '0.2s' }} />
+                          <span className="wave-bar wave-active" style={{ animationDelay: '0.4s' }} />
+                          <span className="wave-bar wave-active" style={{ animationDelay: '0.6s' }} />
                         </div>
                       </div>
                     )}
                   </div>
 
                   {!isRecording && audioUrl && (
-                    <div className="flex flex-col items-center gap-3 w-full animate-fade-in">
-                      <span className="text-xs font-semibold text-green-400 flex items-center gap-1">
+                    <div className="flex flex-col items-center gap-3.5 w-full animate-fade-in font-mono">
+                      <span className="text-xs font-bold text-[#00FF9D] flex items-center gap-1.5 uppercase tracking-widest">
                         <CheckCircle size={14} />
-                        <span>Audio response captured successfully</span>
+                        <span>Audio Recorded</span>
                       </span>
                       <audio src={audioUrl} controls className="w-full max-w-sm rounded" />
                       <button
                         type="button"
-                        className="px-3 py-1.5 rounded-lg border border-red-500/20 text-red-400 text-xs font-semibold bg-red-500/5 hover:bg-red-500/10 transition-all cursor-pointer flex items-center gap-1.5"
+                        className="px-3.5 py-1.5 rounded border border-[#FF4D6D]/30 text-[#FF4D6D] text-[10px] font-heading font-bold bg-[#FF4D6D]/5 hover:bg-[#FF4D6D]/15 transition-all cursor-pointer flex items-center gap-1.5 uppercase"
                         onClick={deleteRecording}
                       >
                         <Trash2 size={12} />
-                        <span>Delete and Re-record</span>
+                        <span>Delete & Re-record</span>
                       </button>
                     </div>
                   )}
 
                   {!isRecording && !audioUrl && (
-                    <span className="text-xs text-text-muted">Click the microphone button to start speaking</span>
+                    <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest">Click start to speak your answer...</span>
                   )}
                 </div>
               )}
 
               {error && (
-                <div className="flex items-center gap-2 p-3.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
-                  <AlertCircle size={16} />
+                <div className="flex items-center gap-2 p-3.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono">
+                  <AlertCircle size={14} />
                   <span>{error}</span>
                 </div>
               )}
 
               <button
-                className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-lg shadow-primary/20 transition-all cursor-pointer disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded bg-gradient-to-r from-primary to-accent text-white font-heading font-bold text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer disabled:opacity-50 hover:brightness-110"
                 onClick={handleSubmitAnswer}
                 disabled={evaluating || (answerType === 'text' ? !answer.trim() : !audioBlob)}
               >
                 {evaluating ? (
                   <>
                     <RefreshCw className="spinner" size={14} />
-                    <span>Evaluating Response & Transcribing...</span>
+                    <span>Submitting & evaluating answer...</span>
                   </>
                 ) : (
                   <>
@@ -854,51 +889,51 @@ export default function MockInterview() {
             </div>
           ) : (
             /* Immediate Feedback layout */
-            <div className="space-y-6 pt-6 border-t border-border-dark animate-fade-in">
+            <div className="space-y-6 pt-6 border-t border-[#00FFF0]/10 animate-fade-in relative z-10 font-mono">
               {answerType === 'audio' && (
                 <div className="p-3.5 bg-primary/5 border-l-2 border-primary rounded text-xs">
-                  <span className="font-bold text-[9px] uppercase text-primary tracking-wider block">Transcribed Answer</span>
+                  <span className="font-bold text-[8px] uppercase text-primary tracking-widest block">Your Answer (Transcribed):</span>
                   <p className="text-text-main italic font-medium mt-1">"{answer}"</p>
                 </div>
               )}
 
-              <div className={`p-4 rounded-lg border ${getScoreColorClass(evaluationResult.score)} text-xs font-semibold flex items-center gap-2.5`}>
-                <Award size={20} />
+              <div className={`p-4 rounded border ${getScoreColorClass(evaluationResult.score)} text-xs font-heading font-bold flex items-center gap-3`}>
+                <Award size={20} className="drop-shadow-[0_0_8px_currentColor]" />
                 <div>
-                  <h4 className="text-sm font-bold">Answer Score: {evaluationResult.score}/100</h4>
-                  <p className="opacity-75 font-normal mt-0.5">Evaluated immediately by the AI Mentor Agent</p>
+                  <h4 className="text-sm font-black tracking-widest uppercase">Score: {evaluationResult.score}/100</h4>
+                  <p className="opacity-75 font-mono text-[9px] font-normal uppercase tracking-wider mt-0.5">Feedback generated by AI Mentor</p>
                 </div>
               </div>
 
               <div className="border-l-2 border-primary pl-3 space-y-1 text-xs">
-                <span className="font-bold text-[9px] uppercase text-primary tracking-wider block font-sans">Critique Feedback</span>
-                <p className="text-text-muted leading-relaxed">{evaluationResult.feedback}</p>
+                <span className="font-bold text-[9px] uppercase text-primary tracking-widest block font-heading">Critique & Feedback</span>
+                <p className="text-text-muted leading-relaxed font-sans text-xs">{evaluationResult.feedback}</p>
               </div>
 
-              <div className="p-4 rounded-lg bg-surface/30 border border-border-dark text-xs space-y-1.5">
-                <h4 className="font-bold text-text-main flex items-center gap-1.5">
-                  <Sparkles size={14} className="text-green-400" />
-                  <span>Ideal Benchmark Answer</span>
+              <div className="p-4 rounded bg-[#050816] border border-[#00FFF0]/10 text-xs space-y-1.5">
+                <h4 className="font-heading font-bold text-text-main flex items-center gap-1.5 uppercase tracking-widest">
+                  <Sparkles size={14} className="text-[#00FF9D]" />
+                  <span>Suggested Answer</span>
                 </h4>
-                <p className="text-text-muted leading-relaxed italic">
+                <p className="text-text-muted leading-relaxed italic font-sans text-xs">
                   "{evaluationResult.idealAnswer}"
                 </p>
               </div>
               
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button 
-                  className="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-lg shadow-primary/20 flex items-center gap-1.5 cursor-pointer"
+                  className="flex-1 py-2.5 px-5 rounded bg-gradient-to-r from-primary to-accent text-white font-heading font-bold text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.3)] hover:brightness-110 flex items-center justify-center gap-1.5 cursor-pointer"
                   onClick={handleNextQuestion}
                 >
-                  <span>Dynamic Next Question</span>
+                  <span>Next Question</span>
                   <ArrowRight size={14} />
                 </button>
                 <button 
-                  className="px-5 py-2.5 rounded-lg bg-surface hover:bg-surface/80 border border-border-dark text-xs font-semibold text-text-main flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="flex-1 py-2.5 px-5 rounded bg-[#0b1120] hover:border-[#00FFF0]/40 border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main hover:text-[#00FFF0] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                   onClick={handleFinishInterview}
                 >
-                  <span>Compile Final Report</span>
-                  <Sparkles size={14} className="text-primary" />
+                  <span>Finish & View Report</span>
+                  <Sparkles size={14} className="text-[#00FFF0]" />
                 </button>
               </div>
             </div>
@@ -913,17 +948,22 @@ export default function MockInterview() {
   // ==========================================
   return (
     <div className="space-y-8 max-w-4xl mx-auto pb-16">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-heading font-extrabold text-text-main tracking-tight flex items-center justify-center gap-2">
-          <Compass className="text-primary" size={32} />
+      
+      {/* Header Banner */}
+      <div className="text-center space-y-3 relative py-4">
+        <h1 className="text-4xl font-heading font-black text-text-main tracking-widest uppercase flex items-center justify-center gap-3">
+          <Compass className="text-[#00FFF0] animate-pulse" size={32} />
           <span>AI Mock Interviews</span>
         </h1>
-        <p className="text-text-muted text-sm max-w-xl mx-auto">Practice target job-specific loops. Speak voice answers or type inputs, receive dynamically adjusted questioning, and download performance reports.</p>
+        <p className="text-text-muted font-sans text-xs tracking-wider max-w-xl mx-auto uppercase">
+          Practice job-specific interview questions in a safe, interactive environment. Speak or type your answers and get immediate grading with suggested improvement roadmaps.
+        </p>
+        <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#00FFF0] to-transparent mx-auto mt-2" />
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-          <AlertCircle size={18} />
+        <div className="flex items-center gap-2.5 p-4 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono">
+          <AlertCircle size={16} />
           <span>{error}</span>
         </div>
       )}
@@ -932,10 +972,13 @@ export default function MockInterview() {
         
         {/* Left Column: Stored profile options */}
         <div className="lg:col-span-6 space-y-6">
-          <div className="p-6 glass-card border border-border-dark space-y-4">
+          <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-4">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
             <div>
-              <label className="text-sm font-semibold text-text-main block">Resume Option *</label>
-              <p className="text-[11px] text-text-muted mt-0.5">Mock interviews can adapt questions specifically to your profile details</p>
+              <label className="text-xs font-heading font-bold text-text-main uppercase tracking-widest">Resume Context (Optional)</label>
+              <p className="text-[9px] font-mono text-text-muted mt-1 uppercase tracking-wider">Tailor the questions based on your uploaded resume data</p>
             </div>
 
             <div className="flex gap-2">
@@ -943,10 +986,10 @@ export default function MockInterview() {
                 <button
                   key={source}
                   type="button"
-                  className={`flex-1 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                  className={`flex-1 py-2 rounded text-xs font-heading font-bold uppercase tracking-widest border transition-all cursor-pointer ${
                     resumeSource === source
-                      ? 'bg-primary/10 border-primary text-primary shadow-sm'
-                      : 'border-border-dark bg-surface/30 text-text-muted hover:text-text-main'
+                      ? 'bg-[#00FFF0]/10 border-[#00FFF0] text-[#00FFF0] shadow-[0_0_10px_rgba(0,255,240,0.1)]'
+                      : 'border-[#00FFF0]/15 bg-[#0b1120]/60 text-text-muted hover:text-text-main hover:border-[#00FFF0]/40'
                   }`}
                   onClick={() => {
                     setResumeSource(source);
@@ -956,31 +999,31 @@ export default function MockInterview() {
                     }
                   }}
                 >
-                  {source === 'none' ? 'No Resume' : source === 'saved' ? 'Stored' : 'Upload New'}
+                  {source === 'none' ? 'No Resume' : source === 'saved' ? 'Use Saved' : 'Upload PDF'}
                 </button>
               ))}
             </div>
 
             {resumeSource === 'saved' && (
               resumesLoading ? (
-                <div className="flex items-center gap-2 text-xs text-text-muted p-2 rounded-lg border border-border-dark bg-surface/30">
-                  <RefreshCw className="spinner" size={14} />
-                  <span>Loading profiles...</span>
+                <div className="flex items-center gap-2 text-xs font-mono text-text-muted p-2.5 rounded border border-[#00FFF0]/15 bg-[#0b1120]/40">
+                  <RefreshCw className="spinner text-[#00FFF0]" size={14} />
+                  <span>SYNCHRONIZING PROFILES...</span>
                 </div>
               ) : savedResumes.length === 0 ? (
-                <div className="p-3 border border-border-dark rounded-lg text-center text-xs text-text-muted">
-                  No resumes saved. Please choose Stored or Upload New.
+                <div className="p-3 border border-[#00FFF0]/15 rounded bg-[#0b1120]/60 text-center text-xs font-mono text-text-muted">
+                  No saved resumes found. Upload a new PDF.
                 </div>
               ) : (
                 <div className="relative">
                   <select
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-border-dark text-xs text-text-main focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all cursor-pointer appearance-none"
+                    className="w-full px-3 py-2.5 rounded bg-[#0b1120] border border-[#00FFF0]/15 text-xs font-mono text-text-main focus:outline-none focus:border-[#00FFF0] transition-all cursor-pointer appearance-none uppercase"
                     value={selectedResumeId}
                     onChange={(e) => setSelectedResumeId(e.target.value)}
                   >
                     {savedResumes.map(r => (
-                      <option key={r._id} value={r._id}>
-                        💾 {r.filename}
+                      <option key={r._id} value={r._id} className="bg-[#0b1120]">
+                        📁 {r.filename}
                       </option>
                     ))}
                   </select>
@@ -993,18 +1036,19 @@ export default function MockInterview() {
 
             {resumeSource === 'upload' && (
               <div 
-                className={`w-full min-h-[140px] rounded-xl border border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer transition-all duration-300 relative ${
+                className={`w-full min-h-[140px] rounded border-2 border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer transition-all duration-300 relative overflow-hidden ${
                   isDragOver 
-                    ? 'border-primary bg-primary/5 shadow-lg shadow-primary/5' 
+                    ? 'border-[#00FFF0] bg-[#00FFF0]/5' 
                     : file 
-                      ? 'border-secondary/40 bg-secondary/5' 
-                      : 'border-border-dark hover:border-primary/40 bg-surface/30'
+                      ? 'border-[#00FF9D]/40 bg-[#00FF9D]/5' 
+                      : 'border-[#00FFF0]/20 bg-[#050816]/50 hover:border-[#00FFF0]/40'
                 }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={!file ? triggerFileSelect : undefined}
               >
+                <div className="scanner-line opacity-25" />
                 <input 
                   type="file" 
                   ref={fileInputRef} 
@@ -1014,33 +1058,33 @@ export default function MockInterview() {
                 />
                 
                 {file ? (
-                  <div className="flex flex-col items-center gap-2 w-full">
-                    <FileText size={32} className="text-secondary" />
-                    <p className="text-xs font-semibold text-text-main truncate max-w-[200px]">{file.name}</p>
+                  <div className="flex flex-col items-center gap-2 w-full relative z-10">
+                    <FileText size={32} className="text-[#00FF9D] drop-shadow-[0_0_8px_rgba(0,255,157,0.3)]" />
+                    <p className="text-xs font-mono font-bold text-text-main truncate max-w-[200px]">{file.name}</p>
                     <button 
                       type="button" 
-                      className="px-2 py-1 rounded bg-surface hover:bg-surface/80 border border-border-dark text-[9px] font-semibold text-red-400 transition-colors cursor-pointer" 
+                      className="px-2 py-1 rounded bg-[#0b1120] hover:border-[#FF4D6D]/45 border border-[#00FFF0]/15 text-[9px] font-heading font-bold text-text-muted hover:text-[#FF4D6D] transition-colors cursor-pointer" 
                       onClick={(e) => { e.stopPropagation(); removeFile(); }}
                     >
-                      Remove
+                      PURGE
                     </button>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center gap-1.5">
-                    <Upload size={24} className="text-text-muted" />
-                    <p className="text-xs text-text-main">Drag & Drop PDF or click to browse</p>
+                  <div className="flex flex-col items-center gap-1.5 relative z-10">
+                    <Upload size={24} className="text-text-muted animate-pulse" />
+                    <p className="text-xs font-heading font-bold text-text-main uppercase tracking-widest">Drag & Drop PDF or click to browse</p>
                   </div>
                 )}
               </div>
             )}
 
             {resumeSource === 'none' && (
-              <div className="p-4 glass-card border border-border-dark flex items-start gap-3 animate-fade-in relative overflow-hidden">
+              <div className="p-4 rounded bg-[#00FFF0]/5 border border-[#00FFF0]/15 flex items-start gap-3 animate-fade-in relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent pointer-events-none"></div>
-                <Smile size={22} className="text-primary flex-shrink-0 mt-0.5" />
+                <Smile size={22} className="text-[#00FFF0] flex-shrink-0 mt-0.5 animate-pulse" />
                 <div className="space-y-0.5">
-                  <p className="font-semibold text-xs text-text-main">General Profile Match Mode</p>
-                  <p className="text-[10px] text-text-muted leading-relaxed">AI will focus questions strictly on the target job role without parsing resume details.</p>
+                  <p className="font-heading font-bold text-xs text-text-main uppercase tracking-wider">General Profile Match Mode</p>
+                  <p className="text-[9px] font-mono text-text-muted leading-relaxed uppercase mt-0.5">AI will focus questions strictly on the target job role without parsing resume details.</p>
                 </div>
               </div>
             )}
@@ -1049,10 +1093,12 @@ export default function MockInterview() {
 
         {/* Right Column: Target role inputs */}
         <div className="lg:col-span-6 space-y-6">
-          <div className="p-6 glass-card border border-border-dark space-y-5">
-            <div className="space-y-1.5">
-              <label htmlFor="jobRole" className="text-sm font-semibold text-text-main">Target Job Role *</label>
-              <p className="text-[11px] text-text-muted">Type the specific job role you are interviewing for</p>
+          <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-5">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
+            <div className="space-y-2">
+              <label htmlFor="jobRole" className="text-xs font-heading font-bold text-text-main uppercase tracking-widest">Target Job Role *</label>
               <input
                 id="jobRole"
                 type="text"
@@ -1060,17 +1106,17 @@ export default function MockInterview() {
                 value={jobRole}
                 onChange={(e) => setJobRole(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-lg bg-surface border border-border-dark text-sm text-text-main placeholder-text-muted/40 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                className="w-full px-4 py-2.5 rounded bg-[#050816] border border-[#00FFF0]/15 text-xs font-mono text-text-main placeholder-text-muted/30 focus:outline-none focus:border-[#00FFF0] transition-all tracking-wider"
               />
 
-              <div className="pt-2 space-y-1.5">
-                <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider block">Quick Select Presets:</span>
+              <div className="pt-2 space-y-2">
+                <span className="text-[9px] font-heading font-bold text-[#00FFF0] uppercase tracking-wider block">Quick Select Presets:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {presetRoles.map(preset => (
                     <button
                       key={preset}
                       type="button"
-                      className="px-2.5 py-1 rounded-full bg-surface hover:bg-surface/80 border border-border-dark text-[10px] text-text-muted hover:text-text-main transition-colors cursor-pointer"
+                      className="px-2.5 py-1 rounded bg-[#0b1120] hover:border-[#00FFF0]/40 border border-[#00FFF0]/15 text-[9px] font-mono text-text-muted hover:text-text-main transition-colors cursor-pointer"
                       onClick={() => setJobRole(preset)}
                     >
                       {preset}
@@ -1080,18 +1126,39 @@ export default function MockInterview() {
               </div>
             </div>
 
+            {/* Difficulty selector for premium feel */}
+            <div className="space-y-2 border-t border-[#00FFF0]/10 pt-3">
+              <label className="text-xs font-heading font-bold text-text-main uppercase tracking-widest">Select Difficulty</label>
+              <div className="flex gap-2">
+                {['easy', 'medium', 'hard'].map((level) => (
+                  <button
+                    key={level}
+                    type="button"
+                    className={`flex-1 py-1.5 rounded text-[10px] font-heading font-bold uppercase tracking-wider border transition-all cursor-pointer ${
+                      difficulty === level
+                        ? level === 'easy' ? 'bg-[#00FF9D]/10 border-[#00FF9D] text-[#00FF9D] shadow-[0_0_10px_rgba(0,255,157,0.15)]' : level === 'medium' ? 'bg-[#FFD93D]/10 border-[#FFD93D] text-[#FFD93D] shadow-[0_0_10px_rgba(255,217,61,0.15)]' : 'bg-[#FF4D6D]/10 border-[#FF4D6D] text-[#FF4D6D] shadow-[0_0_10px_rgba(255,77,109,0.15)]'
+                        : 'border-[#00FFF0]/15 bg-[#0b1120]/60 text-text-muted hover:text-[#00FFF0]'
+                    }`}
+                    onClick={() => setDifficulty(level)}
+                  >
+                    {level}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold shadow-lg shadow-primary/20 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded bg-gradient-to-r from-primary to-accent text-white font-heading font-bold text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer disabled:opacity-50 hover:brightness-110"
               disabled={!jobRole.trim() || (resumeSource === 'upload' && !file)}
             >
-              <Sparkles size={16} />
+              <Sparkles size={14} className="animate-spin-slow" />
               <span>Generate AI Interview Questions</span>
             </button>
           </div>
 
-          <div className="flex items-start gap-2.5 p-4 rounded-xl bg-surface/30 border border-border-dark text-xs text-text-muted leading-relaxed">
-            <Info className="text-primary flex-shrink-0 mt-0.5" size={14} />
+          <div className="flex items-start gap-2.5 p-4 rounded bg-[#0b1120]/50 border border-[#00FFF0]/15 text-[10px] font-mono text-text-muted leading-relaxed uppercase">
+            <Info className="text-[#00FFF0] flex-shrink-0 mt-0.5" size={14} />
             <p>Planner and Interview Agents take around 10-15 seconds to generate custom behavioral and technical scenarios.</p>
           </div>
         </div>

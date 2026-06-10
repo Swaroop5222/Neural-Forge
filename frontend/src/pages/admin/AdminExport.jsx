@@ -1,9 +1,8 @@
 import React from 'react';
 import { 
   Users, FileText, ClipboardList, MessageSquare, Sparkles, 
-  FileSpreadsheet, Download, ShieldCheck, AlertCircle 
+  FileSpreadsheet, Download, ShieldCheck, AlertCircle, Cpu, Database
 } from 'lucide-react';
-import '../../admin.css';
 
 export default function AdminExport() {
   const BASE_URL = 'http://localhost:3000/api/admin/export';
@@ -11,15 +10,15 @@ export default function AdminExport() {
   const getBadgeStyles = (colorName) => {
     switch (colorName) {
       case 'kpi-blue':
-        return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+        return 'bg-blue-500/10 text-blue-400 border-blue-500/30 shadow-[0_0_8px_rgba(59,130,246,0.15)]';
       case 'kpi-green':
-        return 'bg-green-500/10 text-green-400 border-green-500/20';
+        return 'bg-[#00FF9D]/10 text-[#00FF9D] border-[#00FF9D]/30 shadow-[0_0_8px_rgba(0,255,157,0.15)]';
       case 'kpi-purple':
-        return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
+        return 'bg-purple-500/10 text-purple-400 border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.15)]';
       case 'kpi-orange':
-        return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/30 shadow-[0_0_8px_rgba(245,158,11,0.15)]';
       default:
-        return 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20';
+        return 'bg-zinc-500/10 text-zinc-400 border-zinc-500/30';
     }
   };
 
@@ -56,10 +55,13 @@ export default function AdminExport() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      {/* Header */}
+      
+      {/* Header Banner */}
       <div>
-        <h1 className="text-3xl font-heading font-extrabold text-text-main tracking-tight">Export Reports</h1>
-        <p className="text-text-muted text-sm mt-1">Export database directories in CSV, Microsoft Excel (.xlsx), or Adobe PDF formats</p>
+        <h1 className="text-3xl font-heading font-black text-text-main tracking-widest uppercase">Export Reports</h1>
+        <p className="text-text-muted font-sans text-xs tracking-wider uppercase mt-1">
+          Export database directories in CSV, Microsoft Excel (.xlsx), or Adobe PDF formats
+        </p>
       </div>
 
       {/* Export Cards Grid */}
@@ -67,50 +69,54 @@ export default function AdminExport() {
         {exportCategories.map(cat => (
           <div 
             key={cat.title} 
-            className="glass-card p-6 border border-border-dark flex flex-col justify-between hover:border-primary/30 transition-all duration-300 shadow-md relative overflow-hidden group"
+            className="cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 flex flex-col justify-between hover:border-[#00FFF0]/40 transition-all duration-300 relative overflow-hidden group"
           >
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            <div className="scanner-line opacity-10" />
+
             <div>
               {/* Category Header */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${getBadgeStyles(cat.badgeColor)}`}>
+              <div className="flex items-center gap-3 mb-4 relative z-10">
+                <div className={`w-10 h-10 rounded flex items-center justify-center shrink-0 border transition-all ${getBadgeStyles(cat.badgeColor)}`}>
                   {cat.icon}
                 </div>
-                <h3 className="font-heading font-bold text-text-main text-base">{cat.title}</h3>
+                <h3 className="font-heading font-bold text-text-main text-sm uppercase tracking-wide">{cat.title}</h3>
               </div>
               
               {/* Category Description */}
-              <p className="text-sm text-text-muted leading-relaxed mb-6">{cat.description}</p>
+              <p className="text-xs text-text-muted leading-relaxed mb-6 font-mono uppercase tracking-wider relative z-10">{cat.description}</p>
             </div>
             
             {/* Actions Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-border-dark">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-[#00FFF0]/10 font-mono relative z-10">
               <a 
                 href={`${BASE_URL}${cat.endpoint}?format=csv`}
                 download
-                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-zinc-900 border border-border-dark text-text-main hover:bg-zinc-800 hover:border-zinc-700 transition-all duration-200 cursor-pointer"
+                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded bg-[#0b1120] hover:border-[#00FFF0] border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main hover:text-[#00FFF0] transition-all duration-200 cursor-pointer"
                 style={{ textDecoration: 'none' }}
               >
-                <Download size={14} className="shrink-0" />
+                <Download size={14} className="shrink-0 text-[#00FFF0]" />
                 <span>CSV</span>
               </a>
 
               <a 
                 href={`${BASE_URL}${cat.endpoint}?format=xlsx`}
                 download
-                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-green-500/5 border border-green-500/10 text-green-400 hover:bg-green-500/10 hover:border-green-500/20 transition-all duration-200 cursor-pointer"
+                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded bg-[#0b1120] hover:border-[#00FF9D] border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main hover:text-[#00FF9D] transition-all duration-200 cursor-pointer"
                 style={{ textDecoration: 'none' }}
               >
-                <FileSpreadsheet size={14} className="shrink-0" />
+                <FileSpreadsheet size={14} className="shrink-0 text-[#00FF9D]" />
                 <span>Excel</span>
               </a>
 
               <a 
                 href={`${BASE_URL}${cat.endpoint}?format=pdf`}
                 download
-                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-red-500/5 border border-red-500/10 text-red-400 hover:bg-red-500/10 hover:border-red-500/20 transition-all duration-200 cursor-pointer"
+                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded bg-[#0b1120] hover:border-[#FF4D6D] border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main hover:text-[#FF4D6D] transition-all duration-200 cursor-pointer"
                 style={{ textDecoration: 'none' }}
               >
-                <FileText size={14} className="shrink-0" />
+                <FileText size={14} className="shrink-0 text-[#FF4D6D]" />
                 <span>PDF Report</span>
               </a>
             </div>
@@ -119,13 +125,17 @@ export default function AdminExport() {
       </div>
 
       {/* Explanatory Info Card */}
-      <div className="glass-card border border-border-dark p-6 flex items-start gap-4 shadow-lg">
-        <div className="w-12 h-12 rounded-xl bg-green-500/10 text-green-400 flex items-center justify-center shrink-0">
-          <ShieldCheck size={24} />
+      <div className="cyber-card border border-[#00FFF0]/15 p-6 bg-[#0b1120]/50 relative flex items-start gap-4 shadow-lg">
+        <div className="cyber-corner-tr" />
+        <div className="cyber-corner-bl" />
+        
+        <div className="w-12 h-12 rounded bg-[#00FF9D]/10 border border-[#00FF9D]/20 text-[#00FF9D] flex items-center justify-center shrink-0">
+          <ShieldCheck size={24} className="animate-pulse" />
         </div>
+        
         <div className="space-y-1">
-          <h4 className="font-heading font-bold text-text-main text-base">Data Streams & Memory Performance</h4>
-          <p className="text-sm text-text-muted leading-relaxed">
+          <h4 className="font-heading font-bold text-text-main text-sm uppercase tracking-widest">Data Streams & Memory Performance</h4>
+          <p className="text-xs text-text-muted leading-relaxed font-sans uppercase">
             Exports query and compile rows dynamically using database cursor buffers, writing chunks directly to the response download. Large records are streamed efficiently without causing high memory consumption on the server.
           </p>
         </div>

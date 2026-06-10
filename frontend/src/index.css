@@ -1,77 +1,164 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Outfit', sans-serif;
+  --font-sans: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Orbitron', 'Exo 2', sans-serif;
+  --font-orbitron: 'Orbitron', sans-serif;
+  --font-grotesk: 'Space Grotesk', sans-serif;
+  --font-exo: 'Exo 2', sans-serif;
   
-  --color-background: #09090B;
-  --color-surface: #111827;
-  --color-primary: #7C3AED;
-  --color-primary-hover: #6D28D9;
-  --color-secondary: #06B6D4;
-  --color-accent: #EC4899;
+  --color-background: #050816;
+  --color-surface: #0B1120;
+  --color-card-bg: rgba(15, 23, 42, 0.65);
+  
+  --color-primary: #A855F7;
+  --color-primary-hover: #9333EA;
+  --color-secondary: #00E5FF;
+  --color-accent: #FF2E9A;
+  --color-cyan: #00FFF0;
   --color-text-main: #F8FAFC;
   --color-text-muted: #94A3B8;
-  --color-border-dark: rgba(255, 255, 255, 0.08);
+  
+  --color-success: #00FF9D;
+  --color-warning: #FFD93D;
+  --color-danger: #FF4D6D;
+  --color-border-dark: rgba(0, 240, 240, 0.12);
 }
 
 @layer base {
   body {
-    background-color: #09090B;
+    background-color: #050816;
     color: #F8FAFC;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    position: relative;
   }
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.05em;
     color: #F8FAFC;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
   }
 }
 
-/* Glassmorphism Card Utility */
-.glass-card {
-  background: rgba(17, 24, 39, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  border-radius: 1rem;
+/* Cyberpunk Background Grid Overlay */
+.cyber-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 95%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 95%);
+  z-index: 1;
 }
 
-.glass-card-hover {
+/* Cyberpunk CRT Scanline Effect */
+.cyber-scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.08) 50%
+  );
+  background-size: 100% 4px;
+  opacity: 0.8;
+}
+
+/* Glowing Neon Borders & Glassmorphism Cards */
+.cyber-card {
+  background: rgba(11, 17, 32, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 240, 240, 0.15);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    0 0 15px -3px rgba(168, 85, 247, 0.15),
+    inset 0 0 12px 0 rgba(0, 240, 240, 0.04);
+  border-radius: 0.75rem;
+  position: relative;
+}
+
+/* Card Accent Corners */
+.cyber-corner-tr::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #00FFF0;
+  border-right: 2px solid #00FFF0;
+  pointer-events: none;
+}
+
+.cyber-corner-bl::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid #FF2E9A;
+  border-left: 2px solid #FF2E9A;
+  pointer-events: none;
+}
+
+.cyber-card-hover {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-card-hover:hover {
+.cyber-card-hover:hover {
   transform: translateY(-2px);
-  border-color: rgba(124, 58, 237, 0.3);
-  box-shadow: 0 12px 40px 0 rgba(124, 58, 237, 0.15);
-}
-
-.glass-panel {
-  background: rgba(9, 9, 11, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Glow overlays */
-.glow-primary {
-  box-shadow: 0 0 50px -5px rgba(124, 58, 237, 0.25);
-}
-
-.glow-secondary {
-  box-shadow: 0 0 50px -5px rgba(6, 182, 212, 0.2);
+  border-color: rgba(0, 240, 240, 0.45);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 229, 255, 0.2),
+    0 0 25px 0 rgba(168, 85, 247, 0.25),
+    inset 0 0 16px 0 rgba(0, 240, 240, 0.08);
 }
 
 /* Radial Glow Backdrops */
-.bg-glow {
-  background: radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
-              radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 45%);
+.bg-cyber-glow {
+  background: radial-gradient(circle at 10% 15%, rgba(168, 85, 247, 0.1) 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, rgba(0, 229, 255, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(255, 46, 154, 0.03) 0%, transparent 40%);
+}
+
+/* Futuristic Scan Sweep Animation */
+@keyframes scannerSweep {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+.scanner-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #00FFF0, transparent);
+  box-shadow: 0 0 8px #00FFF0;
+  animation: scannerSweep 3.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Custom Scrollbars */
@@ -81,64 +168,96 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090B;
+  background: #050816;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(0, 240, 240, 0.2);
   border-radius: 3px;
+  border: 1px solid rgba(168, 85, 247, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 240, 240, 0.45);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
 }
 
-/* Custom animations helper */
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.95;
-    transform: scale(1.05);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-/* Progress circle style overrides */
-.progress-circle {
+/* Cyberpunk Scanner Progress Ring */
+.cyber-progress-circle {
   position: relative;
   width: 120px;
   height: 120px;
   border-radius: 50%;
   background: conic-gradient(
-    #7C3AED calc(var(--progress) * 1%),
-    rgba(255, 255, 255, 0.08) calc(var(--progress) * 1%)
+    #00FFF0 calc(var(--progress) * 1%),
+    #FF2E9A calc(var(--progress) * 1% + 1%),
+    rgba(255, 255, 255, 0.05) calc(var(--progress) * 1% + 2%)
   );
+  box-shadow: 0 0 15px rgba(0, 255, 240, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.progress-circle::before {
+.cyber-progress-circle::before {
   content: "";
   position: absolute;
-  width: 96px;
-  height: 96px;
+  width: 98px;
+  height: 98px;
   border-radius: 50%;
-  background-color: #111827;
+  background-color: #0b1120;
+  border: 1px solid rgba(0, 240, 240, 0.15);
 }
 
-.progress-text {
+.cyber-progress-text {
   position: relative;
   font-family: var(--font-heading);
   font-size: 24px;
-  font-weight: 800;
-  color: #F8FAFC;
+  font-weight: 900;
+  color: #00FFF0;
+  text-shadow: 0 0 8px rgba(0, 255, 240, 0.5);
+}
+
+/* Audio Waveform Bar Animation */
+@keyframes waveGrowth {
+  0%, 100% {
+    height: 6px;
+  }
+  50% {
+    height: 36px;
+  }
+}
+
+.wave-bar {
+  display: inline-block;
+  width: 3px;
+  height: 15px;
+  background-color: #00FFF0;
+  box-shadow: 0 0 6px #00FFF0;
+  border-radius: 1px;
+}
+
+.wave-bar:nth-child(even) {
+  background-color: #FF2E9A;
+  box-shadow: 0 0 6px #FF2E9A;
+}
+
+.wave-active {
+  animation: waveGrowth 1.2s ease-in-out infinite;
+}
+
+/* Pulse agent node animation */
+@keyframes pulseNode {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 240, 240, 0.2), inset 0 0 5px rgba(0, 240, 240, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(0, 240, 240, 0.65), inset 0 0 12px rgba(0, 240, 240, 0.35);
+  }
+}
+
+.pulse-cyber-active {
+  animation: pulseNode 2s infinite ease-in-out;
 }
 
 /* Spinner helper */

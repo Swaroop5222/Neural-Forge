@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../utils/api';
 import { 
   User, Mail, FileText, Trash2, Upload, AlertCircle, CheckCircle, 
-  RefreshCw, Calendar, Edit3, Shield, Key, Laptop, History, X 
+  RefreshCw, Calendar, Edit3, Shield, Key, Laptop, History, X, Cpu, Server, Terminal, Lock
 } from 'lucide-react';
 
 export default function Profile() {
@@ -234,40 +234,50 @@ export default function Profile() {
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto pb-16">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-heading font-extrabold text-text-main tracking-tight">Account & Profile Settings</h1>
-        <p className="text-text-muted text-sm mt-1">Manage uploaded resumes, edit details, update credentials, and review logged devices</p>
+      
+      {/* Header Banner */}
+      <div className="text-center space-y-3 relative py-4">
+        <h1 className="text-4xl font-heading font-black text-text-main tracking-widest uppercase">
+          Account & Profile Settings
+        </h1>
+        <p className="text-text-muted font-sans text-xs tracking-wider max-w-xl mx-auto uppercase">
+          Manage uploaded resumes, edit details, update credentials, and review logged devices
+        </p>
+        <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#00FFF0] to-transparent mx-auto mt-2" />
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-          <AlertCircle size={18} />
+        <div className="flex items-center gap-2.5 p-4 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono">
+          <AlertCircle size={16} />
           <span>{error}</span>
         </div>
       )}
 
       {success && (
-        <div className="flex items-center gap-2 p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
-          <CheckCircle size={18} />
+        <div className="flex items-center gap-2.5 p-4 rounded bg-[#00FF9D]/10 border border-[#00FF9D]/30 text-[#00FF9D] text-xs font-mono">
+          <CheckCircle size={16} />
           <span>{success}</span>
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
         {/* Left Column: Form Settings */}
         <div className="lg:col-span-6 space-y-8">
           
           {/* Account Details */}
-          <div className="p-6 glass-card border border-border-dark space-y-5">
+          <div className="cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-5">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
             <div className="flex justify-between items-center">
-              <h3 className="font-heading font-bold text-sm text-text-main">Account Information</h3>
+              <h3 className="font-heading font-bold text-sm text-text-main uppercase tracking-widest">Account Information</h3>
               {!isEditingProfile && (
                 <button 
                   onClick={() => setIsEditingProfile(true)}
-                  className="px-2.5 py-1.5 rounded bg-surface hover:bg-surface/80 border border-border-dark text-[10px] font-semibold text-text-main flex items-center gap-1 cursor-pointer transition-colors"
+                  className="px-3 py-1 rounded bg-[#0b1120] hover:border-[#00FFF0]/40 border border-[#00FFF0]/15 text-[10px] font-heading font-bold text-text-main hover:text-[#00FFF0] flex items-center gap-1.5 cursor-pointer transition-all uppercase tracking-wider"
                 >
-                  <Edit3 size={12} />
+                  <Edit3 size={11} />
                   <span>Edit Details</span>
                 </button>
               )}
@@ -275,65 +285,65 @@ export default function Profile() {
 
             {isEditingProfile ? (
               <form onSubmit={handleUpdateProfile} className="space-y-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-text-muted">Full Name</label>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-heading font-bold text-text-muted uppercase tracking-widest">Full Name</label>
                   <input 
                     type="text" 
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-surface border border-border-dark text-xs text-text-main focus:outline-none focus:border-primary transition-all"
+                    className="w-full px-4 py-2.5 rounded bg-[#050816] border border-[#00FFF0]/15 text-xs font-mono text-text-main focus:outline-none focus:border-[#00FFF0] transition-all tracking-wider"
                     required
                   />
                 </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-text-muted">Email Address</label>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-heading font-bold text-text-muted uppercase tracking-widest">Email Address</label>
                   <input 
                     type="email" 
                     value={editEmail}
                     onChange={(e) => setEditEmail(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-surface border border-border-dark text-xs text-text-main focus:outline-none focus:border-primary transition-all"
+                    className="w-full px-4 py-2.5 rounded bg-[#050816] border border-[#00FFF0]/15 text-xs font-mono text-text-main focus:outline-none focus:border-[#00FFF0] transition-all tracking-wider"
                     required
                   />
                 </div>
-                <div className="flex gap-2 pt-2">
+                <div className="flex gap-2.5 pt-2">
                   <button 
                     type="submit" 
-                    className="px-3.5 py-2 rounded bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-md transition-colors cursor-pointer"
+                    className="px-4 py-2 rounded bg-gradient-to-r from-primary to-accent hover:brightness-110 text-white text-xs font-heading font-bold tracking-widest uppercase transition-colors cursor-pointer"
                   >
                     Save Changes
                   </button>
                   <button 
                     type="button" 
                     onClick={() => { setIsEditingProfile(false); setEditName(user.name); setEditEmail(user.email); }} 
-                    className="px-3.5 py-2 rounded bg-surface hover:bg-surface/80 border border-border-dark text-xs font-semibold text-text-main transition-colors cursor-pointer"
+                    className="px-4 py-2 rounded bg-[#0b1120] border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main hover:text-[#FF2E9A] cursor-pointer transition-colors uppercase tracking-wider"
                   >
                     Cancel
                   </button>
                 </div>
               </form>
             ) : (
-              <div className="space-y-4">
-                <div className="flex items-center gap-3.5 p-3 rounded-lg border border-border-dark bg-surface/30">
-                  <User size={18} className="text-primary" />
+              <div className="space-y-3 font-mono text-xs">
+                <div className="flex items-center gap-3.5 p-3 rounded bg-[#050816] border border-[#00FFF0]/10">
+                  <User size={18} className="text-[#00FFF0] drop-shadow-[0_0_4px_rgba(0,229,255,0.3)]" />
                   <div>
-                    <span className="text-[10px] text-text-muted block">Full Name</span>
-                    <span className="text-xs font-semibold text-text-main">{user?.name || 'Career Aspirant'}</span>
+                    <span className="text-[9px] text-text-muted block uppercase tracking-widest">Full Name</span>
+                    <span className="text-xs font-bold text-text-main tracking-wider">{user?.name || 'Career Aspirant'}</span>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-3.5 p-3 rounded-lg border border-border-dark bg-surface/30">
-                  <Mail size={18} className="text-primary" />
+                <div className="flex items-center gap-3.5 p-3 rounded bg-[#050816] border border-[#00FFF0]/10">
+                  <Mail size={18} className="text-[#00FFF0] drop-shadow-[0_0_4px_rgba(0,229,255,0.3)]" />
                   <div>
-                    <span className="text-[10px] text-text-muted block">Email Address</span>
-                    <span className="text-xs font-semibold text-text-main">{user?.email || 'N/A'}</span>
+                    <span className="text-[9px] text-text-muted block uppercase tracking-widest">Email Address</span>
+                    <span className="text-xs font-bold text-text-main tracking-wider">{user?.email || 'N/A'}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-3 rounded-lg border border-border-dark bg-surface/30">
-                  <Shield size={18} className="text-primary" />
+                <div className="flex items-center gap-3.5 p-3 rounded bg-[#050816] border border-[#00FFF0]/10">
+                  <Shield size={18} className="text-primary drop-shadow-[0_0_4px_rgba(168,85,247,0.3)]" />
                   <div>
-                    <span className="text-[10px] text-text-muted block">System Privilege</span>
-                    <span className="text-xs font-semibold text-secondary capitalize">{user?.role || 'user'}</span>
+                    <span className="text-[9px] text-text-muted block uppercase tracking-widest">System Privilege</span>
+                    <span className="text-xs font-bold text-[#FF2E9A] uppercase tracking-wider">{user?.role || 'user'}</span>
                   </div>
                 </div>
               </div>
@@ -341,52 +351,55 @@ export default function Profile() {
           </div>
 
           {/* Change Password */}
-          <div className="p-6 glass-card border border-border-dark space-y-4">
+          <div className="cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-4">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
             <div className="flex items-center gap-2">
-              <Key size={18} className="text-primary" />
-              <h3 className="font-heading font-bold text-sm text-text-main">Security & Credentials</h3>
+              <Key size={18} className="text-primary animate-pulse" />
+              <h3 className="font-heading font-bold text-sm text-text-main uppercase tracking-widest">Security & Credentials</h3>
             </div>
             
             <form onSubmit={handleChangePassword} className="space-y-4">
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-text-muted">Current Password</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-heading font-bold text-text-muted uppercase tracking-widest">Current Password</label>
                 <input 
                   type="password" 
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="Enter current password..."
-                  className="w-full px-3 py-2 rounded bg-surface border border-border-dark text-xs text-text-main placeholder-text-muted/30 focus:outline-none focus:border-primary transition-all"
+                  className="w-full px-4 py-2.5 rounded bg-[#050816] border border-[#00FFF0]/15 text-xs font-mono text-text-main placeholder-text-muted/30 focus:outline-none focus:border-[#00FFF0] transition-all tracking-wider"
                   required
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-text-muted">New Password</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-heading font-bold text-text-muted uppercase tracking-widest">New Password</label>
                 <input 
                   type="password" 
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="At least 6 characters..."
-                  className="w-full px-3 py-2 rounded bg-surface border border-border-dark text-xs text-text-main placeholder-text-muted/30 focus:outline-none focus:border-primary transition-all"
+                  className="w-full px-4 py-2.5 rounded bg-[#050816] border border-[#00FFF0]/15 text-xs font-mono text-text-main placeholder-text-muted/30 focus:outline-none focus:border-[#00FFF0] transition-all tracking-wider"
                   required
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-text-muted">Confirm New Password</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-heading font-bold text-text-muted uppercase tracking-widest">Confirm New Password</label>
                 <input 
                   type="password" 
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-enter new password..."
-                  className="w-full px-3 py-2 rounded bg-surface border border-border-dark text-xs text-text-main placeholder-text-muted/30 focus:outline-none focus:border-primary transition-all"
+                  className="w-full px-4 py-2.5 rounded bg-[#050816] border border-[#00FFF0]/15 text-xs font-mono text-text-main placeholder-text-muted/30 focus:outline-none focus:border-[#00FFF0] transition-all tracking-wider"
                   required
                 />
               </div>
 
               <button 
                 type="submit" 
-                className="px-4 py-2 rounded bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-md transition-colors cursor-pointer"
+                className="px-4 py-2 rounded bg-gradient-to-r from-primary to-accent hover:brightness-110 text-white text-xs font-heading font-bold tracking-widest uppercase transition-colors cursor-pointer"
               >
                 Update Password
               </button>
@@ -396,12 +409,15 @@ export default function Profile() {
 
         {/* Right Column: Resumes Manager */}
         <div className="lg:col-span-6 space-y-6">
-          <div className="p-6 glass-card border border-border-dark space-y-5">
-            <h3 className="font-heading font-bold text-sm text-text-main">Saved Resumes Manager</h3>
+          <div className="cyber-card p-6 border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-5">
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
+            <h3 className="font-heading font-bold text-sm text-text-main uppercase tracking-widest">Saved Resumes Manager</h3>
             
             {loading ? (
-              <div className="flex flex-col items-center justify-center p-8 gap-2 text-text-muted bg-surface/25 border border-border-dark rounded-xl">
-                <RefreshCw className="spinner text-primary" size={24} />
+              <div className="flex flex-col items-center justify-center p-8 gap-2 text-text-muted bg-[#050816]/70 border border-[#00FFF0]/15 rounded-lg font-mono">
+                <RefreshCw className="spinner text-[#00FFF0]" size={24} />
                 <p className="text-xs">Fetching profiles...</p>
               </div>
             ) : resumes.length === 0 ? (
@@ -411,37 +427,37 @@ export default function Profile() {
                 {resumes.map((resume) => (
                   <div 
                     key={resume._id} 
-                    className="flex justify-between items-center p-3.5 rounded-lg border border-border-dark bg-surface/30 gap-4"
+                    className="flex justify-between items-center p-3.5 rounded border border-[#00FFF0]/15 bg-[#050816]/60 gap-4"
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <FileText className="text-secondary flex-shrink-0" size={18} />
+                      <FileText className="text-[#00FFF0] flex-shrink-0 drop-shadow-[0_0_4px_rgba(0,229,255,0.3)] animate-pulse" size={18} />
                       <div className="min-w-0 flex-1">
                         {editingResumeId === resume._id ? (
-                          <div className="flex gap-2 items-center">
+                          <div className="flex gap-2 items-center font-mono">
                             <input
                               type="text"
                               value={editingResumeName}
                               onChange={(e) => setEditingResumeName(e.target.value)}
                               autoFocus
-                              className="px-2 py-0.5 rounded bg-surface border border-primary text-xs text-text-main focus:outline-none flex-1"
+                              className="px-2 py-0.5 rounded bg-[#0b1120] border border-[#00FFF0] text-xs text-text-main focus:outline-none flex-1 font-mono uppercase"
                               onKeyDown={(e) => {
                                   if (e.key === 'Enter') saveRename(resume._id);
                                   if (e.key === 'Escape') cancelRename();
                               }}
                             />
-                            <button onClick={() => saveRename(resume._id)} className="text-green-400 hover:text-green-300 cursor-pointer">
+                            <button onClick={() => saveRename(resume._id)} className="text-[#00FF9D] hover:text-[#00FF9D]/80 cursor-pointer">
                               <CheckCircle size={14} />
                             </button>
-                            <button onClick={cancelRename} className="text-text-muted hover:text-text-main cursor-pointer">
+                            <button onClick={cancelRename} className="text-[#FF4D6D] hover:text-[#FF4D6D]/80 cursor-pointer">
                               <X size={14} />
                             </button>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <span className="text-xs font-semibold text-text-main truncate block max-w-[200px]" title={resume.filename}>
+                          <div className="flex items-center gap-1.5 min-w-0 font-mono">
+                            <span className="text-xs font-bold text-text-main truncate block max-w-[200px] uppercase tracking-wide" title={resume.filename}>
                               {resume.filename}
                             </span>
-                            <button onClick={() => startRename(resume)} className="text-text-muted hover:text-text-main cursor-pointer flex-shrink-0">
+                            <button onClick={() => startRename(resume)} className="text-[#00FFF0]/40 hover:text-[#00FFF0] cursor-pointer flex-shrink-0 transition-colors">
                               <Edit3 size={11} />
                             </button>
                           </div>
@@ -454,7 +470,7 @@ export default function Profile() {
                     </div>
                     
                     <button 
-                      className="p-1.5 rounded-md hover:bg-red-500/10 text-text-muted hover:text-red-400 border border-transparent hover:border-red-500/20 cursor-pointer transition-colors"
+                      className="p-1.5 rounded hover:bg-[#FF4D6D]/15 text-[#FF4D6D]/60 hover:text-[#FF4D6D] border border-transparent hover:border-[#FF4D6D]/30 cursor-pointer transition-colors"
                       onClick={() => handleDelete(resume._id, resume.filename)}
                     >
                       <Trash2 size={14} />
@@ -465,17 +481,18 @@ export default function Profile() {
             )}
 
             {/* Profile Dropzone */}
-            <div className="space-y-3 pt-4 border-t border-border-dark">
-              <span className="text-xs font-semibold text-text-main block">Upload a New Resume</span>
+            <div className="space-y-3 pt-4 border-t border-[#00FFF0]/10">
+              <span className="text-xs font-heading font-bold text-text-main uppercase tracking-widest">Upload a New Resume</span>
               <div 
-                className={`w-full min-h-[120px] rounded-xl border border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer transition-all duration-300 relative ${
-                  isDragOver ? 'border-primary bg-primary/5' : 'border-border-dark hover:border-primary/40 bg-surface/30'
+                className={`w-full min-h-[120px] rounded border-2 border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer transition-all duration-300 relative overflow-hidden ${
+                  isDragOver ? 'border-[#00FFF0] bg-[#00FFF0]/5' : 'border-[#00FFF0]/20 bg-[#050816]/50 hover:border-[#00FFF0]/40'
                 }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current.click()}
               >
+                <div className="scanner-line opacity-10" />
                 <input 
                   type="file" 
                   ref={fileInputRef} 
@@ -486,13 +503,13 @@ export default function Profile() {
                 
                 {uploading ? (
                   <div className="flex flex-col items-center gap-2">
-                    <RefreshCw className="spinner text-primary" size={24} />
-                    <h4 className="text-xs font-semibold text-text-main">Parsing PDF...</h4>
+                    <RefreshCw className="spinner text-[#00FFF0]" size={24} />
+                    <h4 className="text-xs font-heading font-bold text-text-main uppercase tracking-widest">Parsing PDF...</h4>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center gap-2">
-                    <Upload size={22} className="text-text-muted" />
-                    <h4 className="text-xs font-semibold text-text-main">Select or Drop PDF</h4>
+                    <Upload size={22} className="text-text-muted animate-pulse" />
+                    <h4 className="text-xs font-heading font-bold text-[#00FFF0] uppercase tracking-widest">Select or Drop PDF</h4>
                   </div>
                 )}
               </div>
@@ -505,10 +522,13 @@ export default function Profile() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
         
         {/* Active Browser Sessions */}
-        <div className="p-6 glass-card border border-border-dark space-y-4">
+        <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-4">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          
           <div className="flex items-center gap-2">
-            <Laptop size={18} className="text-primary" />
-            <h3 className="font-heading font-bold text-sm text-text-main">Active Browser Sessions</h3>
+            <Laptop size={18} className="text-[#00FFF0] animate-pulse" />
+            <h3 className="font-heading font-bold text-sm text-text-main uppercase tracking-widest">Active Browser Sessions</h3>
           </div>
           
           <div className="max-h-[300px] overflow-y-auto space-y-3 pr-2">
@@ -518,12 +538,12 @@ export default function Profile() {
               activeSessions.map(sess => (
                 <div 
                   key={sess._id} 
-                  className="flex justify-between items-center p-3 rounded-lg border border-border-dark bg-surface/20"
+                  className="flex justify-between items-center p-3 rounded border border-[#00FFF0]/15 bg-[#050816]/60 gap-4"
                 >
-                  <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex items-center gap-3 min-w-0 font-mono">
                     <Laptop size={18} className="text-text-muted flex-shrink-0" />
                     <div className="min-w-0">
-                      <span className="text-xs font-semibold text-text-main block truncate" title={sess.userAgent}>
+                      <span className="text-xs font-bold text-text-main block truncate uppercase tracking-wider" title={sess.userAgent}>
                         {sess.userAgent.split(' ')[0]} on {sess.ipAddress}
                       </span>
                       <span className="text-[10px] text-text-muted">
@@ -535,7 +555,7 @@ export default function Profile() {
                   {sess.token !== sessionStorage.getItem('token') && (
                     <button 
                       onClick={() => handleRevokeSession(sess._id)}
-                      className="px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-[10px] font-bold text-red-400 hover:bg-red-500 hover:text-white transition-colors cursor-pointer"
+                      className="px-2.5 py-1.5 rounded bg-[#FF4D6D]/10 hover:bg-[#FF4D6D] border border-[#FF4D6D]/30 text-[9px] font-heading font-bold text-[#FF4D6D] hover:text-[#050816] transition-colors cursor-pointer uppercase tracking-wider"
                     >
                       Log Out
                     </button>
@@ -547,33 +567,36 @@ export default function Profile() {
         </div>
 
         {/* Login History Ledger */}
-        <div className="p-6 glass-card border border-border-dark space-y-4">
+        <div className="p-6 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative space-y-4">
+          <div className="cyber-corner-tr" />
+          <div className="cyber-corner-bl" />
+          
           <div className="flex items-center gap-2">
             <History size={18} className="text-primary" />
-            <h3 className="font-heading font-bold text-sm text-text-main">Login History Ledger</h3>
+            <h3 className="font-heading font-bold text-sm text-text-main uppercase tracking-widest">Login History Ledger</h3>
           </div>
           
           <div className="max-h-[300px] overflow-y-auto pr-1">
             {loginHistory.length === 0 ? (
               <p className="text-xs text-text-muted italic">No login logs available.</p>
             ) : (
-              <div className="overflow-x-auto w-full border border-border-dark rounded-lg">
-                <table className="w-full text-left text-xs text-text-main border-collapse">
+              <div className="overflow-x-auto w-full border border-[#00FFF0]/15 rounded bg-[#050816]/75">
+                <table className="w-full text-left text-xs font-mono text-text-main border-collapse">
                   <thead>
-                    <tr className="bg-surface/40 border-b border-border-dark">
-                      <th className="p-2.5 font-bold text-text-muted">Timestamp</th>
-                      <th className="p-2.5 font-bold text-text-muted">IP Address</th>
-                      <th className="p-2.5 font-bold text-text-muted">Status</th>
+                    <tr className="bg-[#0b1120]/80 border-b border-[#00FFF0]/15">
+                      <th className="p-2.5 font-heading font-bold text-text-muted uppercase tracking-widest text-[9px]">Timestamp</th>
+                      <th className="p-2.5 font-heading font-bold text-text-muted uppercase tracking-widest text-[9px]">IP Address</th>
+                      <th className="p-2.5 font-heading font-bold text-text-muted uppercase tracking-widest text-[9px]">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {loginHistory.slice(0, 10).map(hist => (
-                      <tr key={hist._id} className="border-b border-border-dark/50 last:border-0 hover:bg-surface/20">
+                      <tr key={hist._id} className="border-b border-[#00FFF0]/5 last:border-0 hover:bg-[#0b1120]/60">
                         <td className="p-2.5 font-medium">{new Date(hist.loginAt).toLocaleString()}</td>
                         <td className="p-2.5 font-medium">{hist.ipAddress}</td>
                         <td className="p-2.5">
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                            hist.active ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'
+                          <span className={`px-2 py-0.5 rounded text-[9px] font-heading font-black uppercase tracking-widest ${
+                            hist.active ? 'bg-[#00FF9D]/15 text-[#00FF9D] border border-[#00FF9D]/20' : 'bg-[#FF4D6D]/15 text-[#FF4D6D] border border-[#FF4D6D]/20'
                           }`}>
                             {hist.active ? 'active' : 'inactive'}
                           </span>

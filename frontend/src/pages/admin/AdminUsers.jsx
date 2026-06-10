@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../utils/api';
 import { 
   Search, ShieldAlert, UserCheck, Trash2, Eye, RefreshCw, 
-  X, AlertCircle, CheckCircle, ChevronLeft, ChevronRight 
+  X, AlertCircle, CheckCircle, ChevronLeft, ChevronRight, Cpu, Terminal
 } from 'lucide-react';
 
 export default function AdminUsers({ currentUser }) {
@@ -105,28 +105,34 @@ export default function AdminUsers({ currentUser }) {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      
+      {/* Header Banner */}
       <div>
-        <h1 className="text-3xl font-heading font-extrabold text-text-main tracking-tight">User Management</h1>
-        <p className="text-text-muted text-sm mt-1">Suspend, activate, delete, and inspect registered system accounts</p>
+        <h1 className="text-3xl font-heading font-black text-text-main tracking-widest uppercase">User Management</h1>
+        <p className="text-text-muted font-sans text-xs tracking-wider uppercase mt-1">
+          Suspend, activate, delete, and inspect registered system accounts
+        </p>
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-          <AlertCircle size={18} />
+        <div className="flex items-center gap-2.5 p-4 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono">
+          <AlertCircle size={14} />
           <span>{error}</span>
         </div>
       )}
 
       {success && (
-        <div className="flex items-center gap-2 p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
-          <CheckCircle size={18} />
+        <div className="flex items-center gap-2.5 p-4 rounded bg-[#00FF9D]/10 border border-[#00FF9D]/30 text-[#00FF9D] text-xs font-mono">
+          <CheckCircle size={14} />
           <span>{success}</span>
         </div>
       )}
 
       {/* Filter and Search Bar Card */}
-      <div className="p-4 glass-card border border-border-dark">
+      <div className="p-4 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/60 relative">
+        <div className="cyber-corner-tr" />
+        <div className="cyber-corner-bl" />
+        
         <form onSubmit={handleSearchSubmit} className="flex flex-wrap items-center gap-4">
           <div className="relative flex items-center flex-1 min-w-[240px]">
             <Search className="absolute left-3.5 text-text-muted" size={16} />
@@ -135,7 +141,7 @@ export default function AdminUsers({ currentUser }) {
               placeholder="Search by name or email..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-surface border border-border-dark text-xs text-text-main placeholder-text-muted/30 focus:outline-none focus:border-primary transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded bg-[#050816] border border-[#00FFF0]/15 text-xs font-mono text-text-main placeholder-text-muted/30 focus:outline-none focus:border-[#00FFF0] transition-all uppercase tracking-wide"
             />
           </div>
 
@@ -143,31 +149,31 @@ export default function AdminUsers({ currentUser }) {
             <select 
               value={roleFilter} 
               onChange={(e) => { setRoleFilter(e.target.value); setPage(1); }}
-              className="px-3.5 py-2.5 rounded-lg bg-surface border border-border-dark text-xs text-text-main focus:outline-none cursor-pointer appearance-none pr-8 min-w-[120px]"
+              className="px-4 py-2.5 rounded bg-[#0b1120] border border-[#00FFF0]/15 text-xs font-mono text-text-main focus:outline-none cursor-pointer appearance-none pr-8 min-w-[120px] uppercase"
             >
               <option value="">All Roles</option>
               <option value="admin">Admin Only</option>
               <option value="user">User Only</option>
             </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted text-[10px]">▼</div>
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted text-[10px]">▼</div>
           </div>
 
           <div className="relative">
             <select 
               value={statusFilter} 
               onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-              className="px-3.5 py-2.5 rounded-lg bg-surface border border-border-dark text-xs text-text-main focus:outline-none cursor-pointer appearance-none pr-8 min-w-[120px]"
+              className="px-4 py-2.5 rounded bg-[#0b1120] border border-[#00FFF0]/15 text-xs font-mono text-text-main focus:outline-none cursor-pointer appearance-none pr-8 min-w-[120px] uppercase"
             >
               <option value="">All Statuses</option>
               <option value="active">Active</option>
               <option value="suspended">Suspended</option>
             </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted text-[10px]">▼</div>
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted text-[10px]">▼</div>
           </div>
 
           <button 
             type="submit" 
-            className="px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-md transition-colors cursor-pointer"
+            className="px-6 py-2.5 rounded bg-gradient-to-r from-primary to-accent hover:brightness-110 text-white text-xs font-heading font-bold tracking-widest uppercase transition-all cursor-pointer"
             disabled={loading}
           >
             Search
@@ -176,21 +182,24 @@ export default function AdminUsers({ currentUser }) {
       </div>
 
       {/* User Records Table Card */}
-      <div className="glass-card border border-border-dark overflow-hidden">
+      <div className="cyber-card border border-[#00FFF0]/15 overflow-hidden bg-[#050816]/70">
+        <div className="cyber-corner-tr" />
+        <div className="cyber-corner-bl" />
+        
         <div className="overflow-x-auto w-full">
           {loading ? (
-            <div className="flex flex-col items-center justify-center p-12 gap-3 text-text-muted">
-              <RefreshCw className="spinner text-primary" size={28} />
-              <p className="text-xs font-semibold">Loading users...</p>
+            <div className="flex flex-col items-center justify-center p-12 gap-3 text-text-muted font-mono">
+              <RefreshCw className="spinner text-[#00FFF0]" size={28} />
+              <p className="text-xs uppercase tracking-widest">Loading users...</p>
             </div>
           ) : users.length === 0 ? (
-            <div className="text-center p-12 text-xs text-text-muted italic">
+            <div className="text-center p-12 text-xs font-mono text-text-muted italic uppercase">
               No accounts matching search criteria were found.
             </div>
           ) : (
-            <table className="w-full text-left text-xs border-collapse">
+            <table className="w-full text-left text-xs font-mono border-collapse">
               <thead>
-                <tr className="bg-surface/30 border-b border-border-dark text-text-muted font-bold">
+                <tr className="bg-[#0b1120]/60 border-b border-[#00FFF0]/15 text-text-muted font-bold text-[9px] uppercase tracking-widest">
                   <th className="p-4">Full Name</th>
                   <th className="p-4">Email Address</th>
                   <th className="p-4">Role</th>
@@ -199,21 +208,21 @@ export default function AdminUsers({ currentUser }) {
                   <th className="p-4 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border-dark/60 text-text-main font-medium">
+              <tbody className="divide-y divide-[#00FFF0]/10 text-text-main">
                 {users.map(u => (
-                  <tr key={u._id} className="hover:bg-surface/15">
-                    <td className="p-4 font-bold text-text-main">{u.name}</td>
+                  <tr key={u._id} className="hover:bg-[#0b1120]/45">
+                    <td className="p-4 font-bold text-text-main font-heading uppercase tracking-wider">{u.name}</td>
                     <td className="p-4">{u.email}</td>
                     <td className="p-4">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                        u.role === 'admin' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'bg-green-500/10 border border-green-500/20 text-green-400'
+                      <span className={`px-2 py-0.5 rounded text-[9px] font-heading font-black uppercase tracking-widest ${
+                        u.role === 'admin' ? 'bg-[#00FFF0]/15 border border-[#00FFF0]/35 text-[#00FFF0]' : 'bg-[#00FF9D]/15 border border-[#00FF9D]/35 text-[#00FF9D]'
                       }`}>
                         {u.role}
                       </span>
                     </td>
                     <td className="p-4">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                        u.status === 'active' ? 'bg-green-500/10 border border-green-500/20 text-green-400' : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                      <span className={`px-2 py-0.5 rounded text-[9px] font-heading font-black uppercase tracking-widest ${
+                        u.status === 'active' ? 'bg-[#00FF9D]/15 border border-[#00FF9D]/35 text-[#00FF9D]' : 'bg-[#FF4D6D]/15 border border-[#FF4D6D]/35 text-[#FF4D6D]'
                       }`}>
                         {u.status}
                       </span>
@@ -223,7 +232,7 @@ export default function AdminUsers({ currentUser }) {
                       <div className="flex justify-center items-center gap-2">
                         <button 
                           onClick={() => setSelectedUser(u)}
-                          className="px-2.5 py-1.5 rounded bg-surface hover:bg-surface/85 border border-border-dark text-[10px] font-bold text-text-main flex items-center gap-1 transition-colors cursor-pointer"
+                          className="px-2.5 py-1.5 rounded bg-[#0b1120] hover:border-[#00FFF0] border border-[#00FFF0]/15 text-[9px] font-heading font-bold text-text-main hover:text-[#00FFF0] flex items-center gap-1 transition-all cursor-pointer uppercase tracking-wider"
                           title="Inspect User details"
                         >
                           <Eye size={12} />
@@ -233,7 +242,7 @@ export default function AdminUsers({ currentUser }) {
                         {u.status === 'active' ? (
                           <button 
                             onClick={() => handleSuspend(u._id, u.name)}
-                            className="p-1.5 rounded-lg border border-red-500/25 hover:bg-red-500/10 text-red-400 transition-colors cursor-pointer"
+                            className="p-1.5 rounded border border-[#FF4D6D]/20 hover:bg-[#FF4D6D]/10 text-[#FF4D6D] transition-colors cursor-pointer"
                             title="Suspend User"
                           >
                             <ShieldAlert size={12} />
@@ -241,7 +250,7 @@ export default function AdminUsers({ currentUser }) {
                         ) : (
                           <button 
                             onClick={() => handleActivate(u._id, u.name)}
-                            className="p-1.5 rounded-lg border border-green-500/25 hover:bg-green-500/10 text-green-400 transition-colors cursor-pointer"
+                            className="p-1.5 rounded border border-[#00FF9D]/20 hover:bg-[#00FF9D]/10 text-[#00FF9D] transition-colors cursor-pointer"
                             title="Activate User"
                           >
                             <UserCheck size={12} />
@@ -250,7 +259,7 @@ export default function AdminUsers({ currentUser }) {
 
                         <button 
                           onClick={() => handleDelete(u._id, u.name)}
-                          className="p-1.5 rounded-lg border border-red-500/10 text-red-400 transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="p-1.5 rounded border border-[#FF4D6D]/10 text-[#FF4D6D] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                           disabled={u._id === currentUser?._id}
                           title={u._id === currentUser?._id ? "You cannot delete yourself" : "Delete Account"}
                         >
@@ -266,25 +275,26 @@ export default function AdminUsers({ currentUser }) {
         </div>
 
         {/* Paginator */}
-        <div className="flex justify-between items-center p-4 bg-surface/20 border-t border-border-dark">
-          <span className="text-xs text-text-muted font-medium">
+        <div className="flex justify-between items-center p-4 bg-[#0b1120]/40 border-t border-[#00FFF0]/15 font-mono">
+          <span className="text-[10px] text-text-muted font-medium uppercase tracking-wider">
             Showing <strong className="text-text-main">{users.length}</strong> of <strong className="text-text-main">{totalUsers}</strong> accounts
           </span>
+          
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setPage(prev => Math.max(prev - 1, 1))} 
               disabled={page === 1}
-              className="p-1.5 rounded bg-surface hover:bg-surface/80 border border-border-dark text-text-muted hover:text-text-main transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1.5 rounded bg-[#050816] hover:border-[#00FFF0]/40 border border-[#00FFF0]/15 text-text-muted hover:text-text-main transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronLeft size={14} />
             </button>
             <span className="text-xs text-text-muted">
-              Page <strong className="text-text-main">{page}</strong> of <strong className="text-text-main">{totalPages}</strong>
+              Page <strong className="text-[#00FFF0]">{page}</strong> of <strong className="text-text-main">{totalPages}</strong>
             </span>
             <button 
               onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} 
               disabled={page === totalPages}
-              className="p-1.5 rounded bg-surface hover:bg-surface/80 border border-border-dark text-text-muted hover:text-text-main transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1.5 rounded bg-[#050816] hover:border-[#00FFF0]/40 border border-[#00FFF0]/15 text-text-muted hover:text-text-main transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronRight size={14} />
             </button>
@@ -294,42 +304,45 @@ export default function AdminUsers({ currentUser }) {
 
       {/* Account Inspect Details Modal */}
       {selectedUser && (
-        <div className="fixed inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setSelectedUser(null)}>
-          <div className="w-full max-w-md glass-card border border-border-dark shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
-            <div className="p-4 border-b border-border-dark flex justify-between items-center bg-surface/30">
-              <h3 className="font-heading font-bold text-sm text-text-main">Account Telemetry Details</h3>
+        <div className="fixed inset-0 bg-[#050816]/70 backdrop-blur-md flex items-center justify-center z-50 p-4" onClick={() => setSelectedUser(null)}>
+          <div className="w-full max-w-md cyber-card border border-[#00FFF0]/20 bg-[#0b1120] shadow-2xl overflow-hidden relative" onClick={(e) => e.stopPropagation()}>
+            <div className="cyber-corner-tr" />
+            <div className="cyber-corner-bl" />
+            
+            <div className="p-4 border-b border-[#00FFF0]/15 flex justify-between items-center bg-[#0b1120]/80">
+              <h3 className="font-heading font-bold text-xs text-[#00FFF0] uppercase tracking-widest">Account Details</h3>
               <button onClick={() => setSelectedUser(null)} className="text-text-muted hover:text-text-main cursor-pointer">
                 <X size={16} />
               </button>
             </div>
             
-            <div className="p-5 space-y-3.5 text-xs text-text-muted">
-              <div className="flex justify-between items-center border-b border-border-dark/60 pb-2.5">
+            <div className="p-5 space-y-3.5 text-xs font-mono text-text-muted leading-relaxed uppercase">
+              <div className="flex justify-between items-center border-b border-[#00FFF0]/10 pb-2.5">
                 <span className="font-semibold">Database ID</span>
-                <span className="font-mono text-text-main text-[11px] select-all bg-surface/50 px-2 py-0.5 rounded border border-border-dark">{selectedUser._id}</span>
+                <span className="font-mono text-[#00FF9D] text-[10px] select-all bg-[#050816] px-2 py-0.5 rounded border border-[#00FFF0]/15">{selectedUser._id}</span>
               </div>
-              <div className="flex justify-between items-center border-b border-border-dark/60 pb-2.5">
+              <div className="flex justify-between items-center border-b border-[#00FFF0]/10 pb-2.5">
                 <span className="font-semibold">Full Name</span>
-                <span className="text-text-main font-bold">{selectedUser.name}</span>
+                <span className="text-text-main font-bold font-heading">{selectedUser.name}</span>
               </div>
-              <div className="flex justify-between items-center border-b border-border-dark/60 pb-2.5">
+              <div className="flex justify-between items-center border-b border-[#00FFF0]/10 pb-2.5">
                 <span className="font-semibold">Email Address</span>
-                <span className="text-text-main font-semibold">{selectedUser.email}</span>
+                <span className="text-text-main font-semibold lowercase">{selectedUser.email}</span>
               </div>
-              <div className="flex justify-between items-center border-b border-border-dark/60 pb-2.5">
-                <span className="font-semibold">Role Privilege</span>
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                  selectedUser.role === 'admin' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'bg-green-500/10 border border-green-500/20 text-green-400'
+              <div className="flex justify-between items-center border-b border-[#00FFF0]/10 pb-2.5">
+                <span className="font-semibold">Role</span>
+                <span className={`px-2 py-0.5 rounded text-[9px] font-heading font-black uppercase ${
+                  selectedUser.role === 'admin' ? 'bg-[#00FFF0]/15 border border-[#00FFF0]/35 text-[#00FFF0]' : 'bg-[#00FF9D]/15 border border-[#00FF9D]/35 text-[#00FF9D]'
                 }`}>{selectedUser.role}</span>
               </div>
-              <div className="flex justify-between items-center border-b border-border-dark/60 pb-2.5">
-                <span className="font-semibold">Account State</span>
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                  selectedUser.status === 'active' ? 'bg-green-500/10 border border-green-500/20 text-green-400' : 'bg-red-500/10 border border-red-500/20 text-red-400'
+              <div className="flex justify-between items-center border-b border-[#00FFF0]/10 pb-2.5">
+                <span className="font-semibold">Status</span>
+                <span className={`px-2 py-0.5 rounded text-[9px] font-heading font-black uppercase ${
+                  selectedUser.status === 'active' ? 'bg-[#00FF9D]/15 border border-[#00FF9D]/35 text-[#00FF9D]' : 'bg-[#FF4D6D]/15 border border-[#FF4D6D]/35 text-[#FF4D6D]'
                 }`}>{selectedUser.status}</span>
               </div>
-              <div className="flex justify-between items-center border-b border-border-dark/60 pb-2.5">
-                <span className="font-semibold">Last Active Clocked</span>
+              <div className="flex justify-between items-center border-b border-[#00FFF0]/10 pb-2.5">
+                <span className="font-semibold">Last Active</span>
                 <span className="text-text-main font-semibold">{formatDate(selectedUser.lastActiveAt)}</span>
               </div>
               <div className="flex justify-between items-center">
@@ -338,10 +351,10 @@ export default function AdminUsers({ currentUser }) {
               </div>
             </div>
 
-            <div className="p-4 border-t border-border-dark bg-surface/30 flex justify-end">
+            <div className="p-4 border-t border-[#00FFF0]/15 bg-[#0b1120]/80 flex justify-end">
               <button 
                 onClick={() => setSelectedUser(null)} 
-                className="px-4 py-2 rounded-lg bg-surface hover:bg-surface/85 border border-border-dark text-xs font-semibold text-text-main cursor-pointer"
+                className="px-4 py-2 rounded bg-[#0b1120] border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-main hover:text-[#00FFF0] cursor-pointer uppercase tracking-wider"
               >
                 Close Details
               </button>

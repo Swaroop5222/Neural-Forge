@@ -63,13 +63,16 @@ export default function App() {
 
   if (!authChecked) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-background bg-glow">
-        <div className="text-center flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-xl bg-gradient-to-tr from-primary to-accent text-white flex items-center justify-center font-heading font-extrabold text-2xl shadow-lg glow-primary spinner">
-            VG
+      <div className="flex items-center justify-center min-h-screen bg-background bg-cyber-glow relative overflow-hidden font-sans">
+        <div className="cyber-grid" />
+        <div className="cyber-scanlines" />
+        <div className="text-center flex flex-col items-center gap-6 relative z-10">
+          <div className="w-16 h-16 rounded-xl bg-gradient-to-tr from-primary to-secondary text-white flex items-center justify-center font-heading font-extrabold text-2xl shadow-lg border border-cyan/40 spinner relative">
+            <div className="absolute inset-0 rounded-xl border border-accent animate-ping opacity-35" />
+            NF
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-text-main">VidyaGuide</h2>
-          <p className="text-text-muted text-sm animate-pulse">Initializing your career path...</p>
+          <h2 className="text-3xl font-heading font-extrabold tracking-wider text-text-main uppercase">Neural Forge OS</h2>
+          <p className="text-cyan text-xs font-mono tracking-widest uppercase animate-pulse">Initializing Career Intelligence Core...</p>
         </div>
       </div>
     );
@@ -78,20 +81,27 @@ export default function App() {
   // Handle routing guards for guest users
   if (!user) {
     return (
-      <div className="bg-background min-h-screen bg-glow text-text-main">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </Routes>
-        </AnimatePresence>
+      <div className="bg-background min-h-screen bg-cyber-glow text-text-main relative overflow-hidden">
+        <div className="cyber-grid" />
+        <div className="cyber-scanlines" />
+        <div className="relative z-10">
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
+          </AnimatePresence>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-background bg-glow text-text-main font-sans selection:bg-primary/30 selection:text-white">
+    <div className="flex min-h-screen bg-background bg-cyber-glow text-text-main font-sans selection:bg-primary/30 selection:text-white relative overflow-hidden">
+      <div className="cyber-grid" />
+      <div className="cyber-scanlines" />
+      
       <Sidebar 
         user={user} 
         onLogoutSuccess={handleLogoutSuccess} 
@@ -99,7 +109,7 @@ export default function App() {
         setCollapsed={setSidebarCollapsed}
       />
       
-      <main className={`flex-1 p-6 md:p-10 min-w-0 transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
+      <main className={`flex-1 p-6 md:p-10 min-w-0 transition-all duration-300 relative z-10 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -138,3 +148,4 @@ export default function App() {
     </div>
   );
 }
+
