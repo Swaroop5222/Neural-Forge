@@ -14,7 +14,6 @@ const tailorRouter = require("./src/routes/tailor.routes");
 const dashboardRouter = require("./src/routes/dashboard.routes");
 const userManagementRouter = require("./src/routes/userManagement.routes");
 const aiAnalyticsRouter = require("./src/routes/aiAnalytics.routes");
-const systemHealthRouter = require("./src/routes/systemHealth.routes");
 const exportRouter = require("./src/routes/export.routes");
 
 app.use(cors({
@@ -37,7 +36,6 @@ app.use("/api/admin/", dashboardRouter);
 app.use("/api/admin/users", userManagementRouter);
 app.use("/api/admin/analytics", aiAnalyticsRouter);
 app.use("/api/admin/export", exportRouter);
-app.use("/api", systemHealthRouter);
 
 
 module.exports = app;

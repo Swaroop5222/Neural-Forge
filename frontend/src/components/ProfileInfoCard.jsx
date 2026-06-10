@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   User, Mail, Phone, MapPin, Globe, 
   Edit3, X, Check, Camera, AlertCircle 
@@ -34,6 +34,20 @@ export default function ProfileInfoCard({ user, onUpdate, onCancel }) {
   
   // Validation errors
   const [errors, setErrors] = useState({});
+
+  // Sync local state whenever user prop updates (handles async load)
+  useEffect(() => {
+    if (user) {
+      setFullName(user.name || '');
+      setEmail(user.email || '');
+      setPhone(user.phone || '');
+      setLocation(user.location || '');
+      setLinkedin(user.linkedin || '');
+      setGithub(user.github || '');
+      setPortfolio(user.portfolio || '');
+      setProfileImage(user.profileImage || '');
+    }
+  }, [user]);
   const fileInputRef = useRef(null);
 
   const validate = () => {

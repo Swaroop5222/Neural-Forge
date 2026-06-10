@@ -31,24 +31,37 @@ import ResumeEditor from '../components/ResumeEditor';
 import { exportToDocx } from '../utils/docxExport';
 
 export default function TailorResume() {
+  const SESSION_KEY = 'tailor_resume_session';
+
+  // Restore session from sessionStorage on mount
+  const savedSession = (() => {
+    try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; }
+  })();
+
   const [savedResumes, setSavedResumes] = useState([]);
   const [resumesLoading, setResumesLoading] = useState(true);
-  const [resumeSource, setResumeSource] = useState('saved'); // 'saved' or 'upload'
-  const [selectedResumeId, setSelectedResumeId] = useState('');
+  const [resumeSource, setResumeSource] = useState(savedSession?.resumeSource || 'saved');
+  const [selectedResumeId, setSelectedResumeId] = useState(savedSession?.selectedResumeId || '');
 
   const [file, setFile] = useState(null);
-  const [jobDescription, setJobDescription] = useState('');
+  const [jobDescription, setJobDescription] = useState(savedSession?.jobDescription || '');
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState('');
-  const [result, setResult] = useState(null);
-  const [selectedTemplate, setSelectedTemplate] = useState('modern');
+  const [result, setResult] = useState(savedSession?.result || null);
+  const [selectedTemplate, setSelectedTemplate] = useState(savedSession?.selectedTemplate || 'modern');
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState('');
-  const [resumeName, setResumeName] = useState('');
+  const [resumeName, setResumeName] = useState(savedSession?.resumeName || '');
   
   const [isDragOver, setIsDragOver] = useState(false);
+
+  // Persist session state to sessionStorage whenever key values change
+  useEffect(() => {
+    const session = { result, jobDescription, selectedTemplate, resumeName, resumeSource, selectedResumeId };
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  }, [result, jobDescription, selectedTemplate, resumeName, resumeSource, selectedResumeId]);
   
   const templates = [
     { id: 'modern', name: 'Modern Professional', desc: 'Clean layout, ideal for tech roles' },
@@ -95,11 +108,14 @@ export default function TailorResume() {
         const data = await api.get('/api/resumeUpload/');
         const list = data.resumes || [];
         setSavedResumes(list);
-        if (list.length > 0) {
-          setSelectedResumeId(list[0]._id);
-          setResumeSource('saved');
-        } else {
-          setResumeSource('upload');
+        // Only auto-select if no saved session exists
+        if (!savedSession?.selectedResumeId) {
+          if (list.length > 0) {
+            setSelectedResumeId(list[0]._id);
+            setResumeSource('saved');
+          } else {
+            setResumeSource('upload');
+          }
         }
       } catch (err) {
         console.error("Failed to load saved resumes:", err);
@@ -203,6 +219,8 @@ export default function TailorResume() {
     setError('');
     setIsEditing(false);
     setResumeName('');
+    setSelectedTemplate('modern');
+    sessionStorage.removeItem(SESSION_KEY); // clear persisted session
     if (fileInputRef.current) fileInputRef.current.value = '';
     
     setResumesLoading(true);

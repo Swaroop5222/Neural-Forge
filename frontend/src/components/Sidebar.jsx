@@ -12,7 +12,6 @@ import {
   MessageSquare, 
   Wand2, 
   Sparkles, 
-  Activity, 
   Download,
   ChevronLeft,
   ChevronRight
@@ -37,7 +36,6 @@ export default function Sidebar({ user, onLogoutSuccess, collapsed, setCollapsed
     { to: "/", label: "Admin Overview", icon: LayoutDashboard },
     { to: "/admin/users", label: "User Manager", icon: User },
     { to: "/admin/analytics", label: "AI Analytics", icon: Sparkles },
-    { to: "/admin/health", label: "System Health", icon: Activity },
     { to: "/admin/export", label: "Export Reports", icon: Download },
     { to: "/profile", label: "Profile Settings", icon: User }
   ] : [

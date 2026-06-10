@@ -18,8 +18,8 @@ import Home from './pages/Home';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
-import AdminHealth from './pages/admin/AdminHealth';
 import AdminExport from './pages/admin/AdminExport';
+import AdminProfile from './pages/admin/AdminProfile';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -127,9 +127,8 @@ export default function App() {
                   <Route path="/" element={<AdminDashboard />} />
                   <Route path="/admin/users" element={<AdminUsers currentUser={user} />} />
                   <Route path="/admin/analytics" element={<AdminAnalytics />} />
-                  <Route path="/admin/health" element={<AdminHealth />} />
                   <Route path="/admin/export" element={<AdminExport />} />
-                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/profile" element={<AdminProfile />} />
                 </>
               ) : (
                 <>

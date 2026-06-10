@@ -4,13 +4,16 @@ import { Link } from 'react-router-dom';
 import { Search, MapPin, Briefcase, ExternalLink, RefreshCw, AlertCircle, Sparkles, Network, Database } from 'lucide-react';
 
 export default function JobSearch() {
-  const [jobRole, setJobRole] = useState('');
-  const [location, setLocation] = useState('');
+  const SESSION_KEY = 'job_search_session';
+  const saved = (() => { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; } })();
+
+  const [jobRole, setJobRole] = useState(saved?.jobRole || '');
+  const [location, setLocation] = useState(saved?.location || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [jobsList, setJobsList] = useState([]);
-  const [searchedRole, setSearchedRole] = useState('');
-  const [searchedLocation, setSearchedLocation] = useState('');
+  const [jobsList, setJobsList] = useState(saved?.jobsList || []);
+  const [searchedRole, setSearchedRole] = useState(saved?.searchedRole || '');
+  const [searchedLocation, setSearchedLocation] = useState(saved?.searchedLocation || '');
 
   // States for automated recommendations
   const [recommendedJobs, setRecommendedJobs] = useState([]);
@@ -18,6 +21,11 @@ export default function JobSearch() {
   const [loadingRecs, setLoadingRecs] = useState(false);
   const [errorRecs, setErrorRecs] = useState('');
   const [hasHistory, setHasHistory] = useState(false);
+
+  // Persist search results to sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ jobRole, location, jobsList, searchedRole, searchedLocation }));
+  }, [jobRole, location, jobsList, searchedRole, searchedLocation]);
 
   // Fetch recommended jobs based on latest report
   useEffect(() => {

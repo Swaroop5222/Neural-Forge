@@ -36,46 +36,49 @@ export default function Profile() {
   // History states
   const [loginHistory, setLoginHistory] = useState([]);
 
+  // Derive user-specific localStorage keys (avoids cross-account data leakage)
+  const getUserKey = (key) => {
+    const userId = user?._id || 'guest';
+    return `${key}_${userId}`;
+  };
+
   // Local storage synced states for career preferences and skills
-  const [preferences, setPreferences] = useState(() => {
-    const saved = localStorage.getItem('career_preferences');
-    return saved ? JSON.parse(saved) : {
-      preferredRoles: ["Frontend Developer", "Full Stack Developer"],
-      experienceLevel: "Mid-Level",
-      workType: "Remote",
-      preferredLocations: ["Bangalore", "San Francisco"],
-      expectedSalary: "120000",
-      salaryCurrency: "USD"
-    };
+  const [preferences, setPreferences] = useState({
+    preferredRoles: [],
+    experienceLevel: "Mid-Level",
+    workType: "Remote",
+    preferredLocations: [],
+    expectedSalary: "",
+    salaryCurrency: "USD"
   });
 
-  const [skills, setSkills] = useState(() => {
-    const saved = localStorage.getItem('skills_management');
-    return saved ? JSON.parse(saved) : [
-      { name: "React", category: "Frontend", proficiency: "Advanced" },
-      { name: "Node.js", category: "Backend", proficiency: "Intermediate" },
-      { name: "MongoDB", category: "Database", proficiency: "Intermediate" },
-      { name: "JavaScript", category: "Programming Languages", proficiency: "Expert" },
-      { name: "Python", category: "Programming Languages", proficiency: "Intermediate" },
-      { name: "DSA", category: "Soft Skills", proficiency: "Advanced" }
-    ];
-  });
+  const [skills, setSkills] = useState([]);
 
   const fetchUserData = async () => {
     try {
       const data = await api.get('/api/auth/get-me');
       if (data.user) {
-        const savedDetails = localStorage.getItem('user_profile_details');
+        const userId = data.user._id || data.user.id; // handle both field name variants
+        const savedDetails = localStorage.getItem(`user_profile_details_${userId}`);
         const parsedDetails = savedDetails ? JSON.parse(savedDetails) : {};
         
-        setUser({
+        const mergedUser = {
           ...data.user,
           ...parsedDetails,
-          name: data.user.name, // always prioritize database name & email
+          _id: userId,         // normalize to _id regardless of what API returned
+          name: data.user.name,
           email: data.user.email
-        });
+        };
+        setUser(mergedUser);
         setEditName(data.user.name);
         setEditEmail(data.user.email);
+
+        // Load user-scoped preferences and skills
+        const savedPrefs = localStorage.getItem(`career_preferences_${userId}`);
+        if (savedPrefs) setPreferences(JSON.parse(savedPrefs));
+
+        const savedSkills = localStorage.getItem(`skills_management_${userId}`);
+        if (savedSkills) setSkills(JSON.parse(savedSkills));
       }
     } catch (err) {
       console.error('Error fetching user data:', err);
@@ -84,13 +87,19 @@ export default function Profile() {
 
   const handleUpdatePreferences = (updatedPref) => {
     setPreferences(updatedPref);
-    localStorage.setItem('career_preferences', JSON.stringify(updatedPref));
+    const uid = user?._id || user?.id;
+    if (uid) {
+      localStorage.setItem(`career_preferences_${uid}`, JSON.stringify(updatedPref));
+    }
     setSuccess("Career preferences updated successfully.");
   };
 
   const handleUpdateSkills = (updatedSkills) => {
     setSkills(updatedSkills);
-    localStorage.setItem('skills_management', JSON.stringify(updatedSkills));
+    const uid = user?._id || user?.id;
+    if (uid) {
+      localStorage.setItem(`skills_management_${uid}`, JSON.stringify(updatedSkills));
+    }
     setSuccess("Skills inventory updated successfully.");
   };
 
@@ -114,7 +123,9 @@ export default function Profile() {
       };
       
       setUser(updatedUser);
-      localStorage.setItem('user_profile_details', JSON.stringify(updatedUser));
+      if (updatedUser._id) {
+        localStorage.setItem(`user_profile_details_${updatedUser._id}`, JSON.stringify(updatedUser));
+      }
     } catch (err) {
       console.error('Profile details update failed:', err);
       setError(err.message || 'Failed to update profile details.');

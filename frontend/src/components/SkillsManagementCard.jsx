@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Plus, Trash2, Search, Edit2, Check, X, 
   Cpu, Award, Sparkles, Filter 
 } from 'lucide-react';
 
 export default function SkillsManagementCard({ initialSkills, onUpdate }) {
-  const [skills, setSkills] = useState(initialSkills || [
-    { name: "React", category: "Frontend", proficiency: "Advanced" },
-    { name: "Node.js", category: "Backend", proficiency: "Intermediate" },
-    { name: "MongoDB", category: "Database", proficiency: "Intermediate" },
-    { name: "JavaScript", category: "Programming Languages", proficiency: "Expert" },
-    { name: "Python", category: "Programming Languages", proficiency: "Intermediate" },
-    { name: "DSA", category: "Soft Skills", proficiency: "Advanced" }
-  ]);
+  const [skills, setSkills] = useState(initialSkills || []);
+
+  // Sync skills when parent loads them from localStorage after async user fetch
+  useEffect(() => {
+    if (initialSkills && initialSkills.length > 0) {
+      setSkills(initialSkills);
+    }
+  }, [initialSkills]);
 
   const categories = [
     "All",

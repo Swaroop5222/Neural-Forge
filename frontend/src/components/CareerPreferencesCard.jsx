@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Briefcase, Award, Laptop, MapPin, Coins, 
   Edit3, X, Check, Plus 
@@ -49,6 +49,18 @@ export default function CareerPreferencesCard({ preferences, onUpdate }) {
   const [preferredLocations, setPreferredLocations] = useState(preferences?.preferredLocations || []);
   const [expectedSalary, setExpectedSalary] = useState(preferences?.expectedSalary || '');
   const [salaryCurrency, setSalaryCurrency] = useState(preferences?.salaryCurrency || 'USD');
+
+  // Sync when parent loads preferences from localStorage after async user fetch
+  useEffect(() => {
+    if (preferences) {
+      setPreferredRoles(preferences.preferredRoles || []);
+      setExperienceLevel(preferences.experienceLevel || 'Mid-Level');
+      setWorkType(preferences.workType || 'Remote');
+      setPreferredLocations(preferences.preferredLocations || []);
+      setExpectedSalary(preferences.expectedSalary || '');
+      setSalaryCurrency(preferences.salaryCurrency || 'USD');
+    }
+  }, [preferences]);
 
   // Input states
   const [locationInput, setLocationInput] = useState('');

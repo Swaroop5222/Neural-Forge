@@ -1,9 +1,8 @@
+require('dotenv').config(); // Must be first — loads env vars before db.js reads them
 const app = require("./index")
 const mongoDBConnect = require("../backend/config/db");
-const { startHealthScheduler } = require("./src/services/systemHealth.service");
 
 mongoDBConnect();
 app.listen(3000,() => {
     console.log("Server is running on 3000");
-    startHealthScheduler(5 * 60 * 1000);
 })

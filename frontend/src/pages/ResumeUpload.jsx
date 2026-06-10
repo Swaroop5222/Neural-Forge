@@ -5,20 +5,28 @@ import { Upload, FileText, AlertCircle, RefreshCw, CheckCircle, Info, Sparkles, 
 import { Link } from 'react-router-dom';
 
 export default function ResumeUpload() {
+  const SESSION_KEY = 'resume_upload_session';
+  const saved = (() => { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; } })();
+
   const [savedResumes, setSavedResumes] = useState([]);
   const [resumesLoading, setResumesLoading] = useState(true);
-  const [resumeSource, setResumeSource] = useState('saved'); // 'saved' or 'upload'
-  const [selectedResumeId, setSelectedResumeId] = useState('');
+  const [resumeSource, setResumeSource] = useState(saved?.resumeSource || 'saved');
+  const [selectedResumeId, setSelectedResumeId] = useState(saved?.selectedResumeId || '');
 
   const [file, setFile] = useState(null);
-  const [jobDescription, setJobDescription] = useState('');
-  const [selfDescription, setSelfDescription] = useState('');
+  const [jobDescription, setJobDescription] = useState(saved?.jobDescription || '');
+  const [selfDescription, setSelfDescription] = useState(saved?.selfDescription || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState(saved?.result || null);
   
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Persist key state to sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ result, jobDescription, selfDescription, resumeSource, selectedResumeId }));
+  }, [result, jobDescription, selfDescription, resumeSource, selectedResumeId]);
 
   // Fetch saved resumes list on mount
   useEffect(() => {
@@ -27,11 +35,14 @@ export default function ResumeUpload() {
         const data = await api.get('/api/resumeUpload/');
         const list = data.resumes || [];
         setSavedResumes(list);
-        if (list.length > 0) {
-          setSelectedResumeId(list[0]._id);
-          setResumeSource('saved');
-        } else {
-          setResumeSource('upload');
+        // Only auto-select if no saved session
+        if (!saved?.selectedResumeId) {
+          if (list.length > 0) {
+            setSelectedResumeId(list[0]._id);
+            setResumeSource('saved');
+          } else {
+            setResumeSource('upload');
+          }
         }
       } catch (err) {
         console.error("Failed to load saved resumes:", err);
@@ -135,6 +146,7 @@ export default function ResumeUpload() {
     setSelfDescription('');
     setResult(null);
     setError('');
+    sessionStorage.removeItem(SESSION_KEY); // clear persisted session
     if (fileInputRef.current) fileInputRef.current.value = '';
     
     // Refresh saved resumes

@@ -21,27 +21,38 @@ import {
 } from 'lucide-react';
 
 export default function Quiz() {
+  const SESSION_KEY = 'quiz_session';
+  const saved = (() => { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; } })();
+
   // Page states: 'setup', 'playing', 'results'
-  const [gameState, setGameState] = useState('setup');
+  const [gameState, setGameState] = useState(saved?.gameState || 'setup');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
   // Setup forms
-  const [quizMode, setQuizMode] = useState('jd'); // 'jd' or 'skills'
+  const [quizMode, setQuizMode] = useState(saved?.quizMode || 'jd');
   const [jobTitleList, setJobTitleList] = useState([]);
-  const [selectedJobTitle, setSelectedJobTitle] = useState('');
+  const [selectedJobTitle, setSelectedJobTitle] = useState(saved?.selectedJobTitle || '');
   
   const [availableSkills, setAvailableSkills] = useState([]);
-  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [selectedSkills, setSelectedSkills] = useState(saved?.selectedSkills || []);
   const [customSkillInput, setCustomSkillInput] = useState('');
   
-  const [difficulty, setDifficulty] = useState('Easy');
-  const [numQuestions, setNumQuestions] = useState(5);
+  const [difficulty, setDifficulty] = useState(saved?.difficulty || 'Easy');
+  const [numQuestions, setNumQuestions] = useState(saved?.numQuestions || 5);
   
   // Quiz gameplay states
-  const [quizData, setQuizData] = useState(null);
-  const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
-  const [answers, setAnswers] = useState({}); // { questionIndex: selectedOptionString }
+  const [quizData, setQuizData] = useState(saved?.quizData || null);
+  const [currentQuestionIdx, setCurrentQuestionIdx] = useState(saved?.currentQuestionIdx || 0);
+  const [answers, setAnswers] = useState(saved?.answers || {});
+
+  // Persist quiz state to sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+      gameState, quizMode, selectedJobTitle, selectedSkills,
+      difficulty, numQuestions, quizData, currentQuestionIdx, answers
+    }));
+  }, [gameState, quizMode, selectedJobTitle, selectedSkills, difficulty, numQuestions, quizData, currentQuestionIdx, answers]);
 
   // Fetch report history for setup dropdowns
   const loadSetupData = async () => {
@@ -229,7 +240,10 @@ export default function Quiz() {
           <button 
             className="px-4 py-2 rounded bg-[#0b1120] hover:border-[#FF2E9A]/45 border border-[#00FFF0]/15 text-xs font-heading font-bold text-text-muted hover:text-[#FF2E9A] transition-all cursor-pointer flex items-center gap-1 font-mono uppercase"
             onClick={() => {
-              if (window.confirm("Exit quiz? Your progress will be lost.")) setGameState('setup');
+              if (window.confirm("Exit quiz? Your progress will be lost.")) {
+                sessionStorage.removeItem(SESSION_KEY);
+                setGameState('setup');
+              }
             }}
           >
             <ArrowLeft size={14} /> 
@@ -346,7 +360,7 @@ export default function Quiz() {
           <h2 className="text-2xl font-heading font-black text-text-main tracking-widest uppercase">Assessment Results</h2>
           <button 
             className="px-5 py-2.5 rounded bg-gradient-to-r from-primary to-accent hover:brightness-110 text-white text-xs font-heading font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
-            onClick={() => setGameState('setup')}
+            onClick={() => { sessionStorage.removeItem(SESSION_KEY); setGameState('setup'); }}
           >
             Start New Quiz
           </button>

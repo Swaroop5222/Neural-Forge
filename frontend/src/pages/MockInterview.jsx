@@ -38,30 +38,42 @@ import {
 } from 'lucide-react';
 
 export default function MockInterview() {
+  const SESSION_KEY = 'mock_interview_session';
+  const saved = (() => { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; } })();
+
   // Setup States
   const [savedResumes, setSavedResumes] = useState([]);
   const [resumesLoading, setResumesLoading] = useState(true);
-  const [resumeSource, setResumeSource] = useState('none'); // 'none', 'saved', 'upload'
+  const [resumeSource, setResumeSource] = useState('none');
   const [selectedResumeId, setSelectedResumeId] = useState('');
   const [file, setFile] = useState(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
-  const [jobRole, setJobRole] = useState('');
-  const [difficulty, setDifficulty] = useState('medium'); // 'easy', 'medium', 'hard'
+  const [jobRole, setJobRole] = useState(saved?.jobRole || '');
+  const [difficulty, setDifficulty] = useState(saved?.difficulty || 'medium');
 
   // Loading & Session States
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0); 
   const [error, setError] = useState('');
-  const [session, setSession] = useState(null); 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [session, setSession] = useState(saved?.session || null);
+  // Always derive currentQuestionIndex from session length (backend source of truth)
+  // Never restore from sessionStorage — stale index causes "active question" backend errors
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
+    saved?.session?.questions ? saved.session.questions.length - 1 : 0
+  );
 
   // Active Answering Mode
   const [answerType, setAnswerType] = useState('text'); 
-  const [answer, setAnswer] = useState(''); 
+  const [answer, setAnswer] = useState(saved?.answer || ''); 
   const [evaluating, setEvaluating] = useState(false);
-  const [evaluationResult, setEvaluationResult] = useState(null); 
+  const [evaluationResult, setEvaluationResult] = useState(null);
+
+  // Persist interview state to sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ session, jobRole, difficulty, currentQuestionIndex, answer }));
+  }, [session, jobRole, difficulty, currentQuestionIndex, answer]); 
 
   // Audio Recording States
   const [isRecording, setIsRecording] = useState(false);
@@ -339,6 +351,7 @@ export default function MockInterview() {
   };
 
   const resetInterview = () => {
+    sessionStorage.removeItem(SESSION_KEY);
     setSession(null);
     setAnswer('');
     setEvaluationResult(null);
@@ -765,8 +778,8 @@ export default function MockInterview() {
   // ==========================================
   if (session && session.status !== 'completed') {
     const currentQuestion = session.questions[currentQuestionIndex];
-    const totalQuestions = 3;
-    const progressPercent = Math.min(((currentQuestionIndex + (evaluationResult ? 1.0 : 0)) / totalQuestions) * 100, 100);
+    const totalQuestions = session.questions.length; // dynamic — no hardcoded limit
+    const progressPercent = Math.min(((currentQuestionIndex + (evaluationResult ? 1.0 : 0)) / Math.max(totalQuestions, 1)) * 100, 100);
 
     return (
       <div className="space-y-6 max-w-3xl mx-auto pb-16">
@@ -809,7 +822,7 @@ export default function MockInterview() {
               {currentQuestion.category} Question
             </span>
             <span className="text-xs font-mono text-text-muted uppercase tracking-wider">
-              Question {currentQuestionIndex + 1} of {totalQuestions}
+              Question {currentQuestionIndex + 1}
             </span>
           </div>
 
