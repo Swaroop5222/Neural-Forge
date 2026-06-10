@@ -621,7 +621,9 @@ export default function MockInterview() {
         {/* Transcript Panel Accordion */}
         <div className="space-y-4">
           <h3 className="font-heading font-bold text-base text-[#00FFF0] uppercase tracking-widest">Full Interview Transcript</h3>
-          <div className="space-y-3">
+          
+          {/* Interactive Accordion for screen display */}
+          <div className="space-y-3 print:hidden">
             {session.questions.map((q, idx) => {
               const isOpen = expandedQuestion === idx;
               return (
@@ -683,7 +685,77 @@ export default function MockInterview() {
               );
             })}
           </div>
+
+          {/* Full detailed list for printed PDF */}
+          <div className="hidden print:block space-y-6">
+            {session.questions.map((q, idx) => (
+              <div key={idx} className="p-5 rounded-lg border border-[#00FFF0]/15 bg-[#0b1120]/80 space-y-4 page-break-inside-avoid">
+                <div className="flex justify-between items-center border-b border-[#00FFF0]/15 pb-2">
+                  <span className="text-[10px] font-heading font-black uppercase text-[#00FFF0] tracking-wider">
+                    Question {idx + 1} &mdash; {q.topic || 'Core Concept'} ({q.category})
+                  </span>
+                  <span className="text-xs font-mono font-bold" style={{ color: getStrokeColor(q.score) }}>
+                    Score: {q.score}%
+                  </span>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[8px] font-heading font-bold uppercase text-[#00FFF0]/60 tracking-wider block">Question:</span>
+                  <p className="text-xs font-heading font-bold text-text-main leading-relaxed">{q.question}</p>
+                </div>
+                <div className="p-3 bg-[#050816]/60 rounded border border-[#00FFF0]/10 space-y-1 font-mono">
+                  <span className="text-[8px] font-heading font-bold uppercase text-text-muted tracking-wider block">Your Transcribed Response:</span>
+                  <p className="text-xs text-text-main italic font-medium">"{q.userAnswer || 'No response provided.'}"</p>
+                </div>
+                <div className="border-l-2 border-primary pl-3.5 space-y-1">
+                  <span className="text-[8px] font-heading font-bold uppercase text-primary tracking-wider block">Mentor Feedback:</span>
+                  <p className="text-text-muted text-[11px] leading-relaxed font-sans">{q.feedback}</p>
+                </div>
+                <div className="border-l-2 border-[#00FF9D] pl-3.5 space-y-1">
+                  <span className="text-[8px] font-heading font-bold uppercase text-[#00FF9D] tracking-wider block">Suggested Answer:</span>
+                  <p className="text-text-muted text-[11px] leading-relaxed italic font-sans">"{q.idealAnswer}"</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
+
+        <style dangerouslySetInnerHTML={{__html: `
+          @media print {
+            body, html {
+              background-color: #050816 !important;
+              color: #F8FAFC !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            aside, nav, .no-print, [role="navigation"], button {
+              display: none !important;
+            }
+            main {
+              margin-left: 0 !important;
+              padding: 0 !important;
+              width: 100% !important;
+              max-width: 100% !important;
+            }
+            #printable-report {
+              width: 100% !important;
+              max-width: 100% !important;
+              padding: 0 !important;
+              margin: 0 !important;
+            }
+            .cyber-card {
+              background: rgba(11, 17, 32, 0.95) !important;
+              border-color: rgba(0, 240, 240, 0.2) !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            .page-break-inside-avoid {
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+            }
+          }
+        `}} />
+
       </div>
     );
   }

@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import Quiz from './pages/Quiz';
 import MockInterview from './pages/MockInterview';
 import TailorResume from './pages/TailorResume';
+import Home from './pages/Home';
 
 // Admin Views
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -87,9 +88,10 @@ export default function App() {
         <div className="relative z-10">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
               <Route path="/register" element={<Register />} />
-              <Route path="*" element={<Navigate to="/login" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </AnimatePresence>
         </div>

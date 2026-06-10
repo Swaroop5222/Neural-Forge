@@ -58,6 +58,36 @@ export default function TailorResume() {
     { id: 'student', name: 'Student / Fresher', desc: 'Prioritizes education and projects' }
   ];
   const fileInputRef = useRef(null);
+  const containerRef = useRef(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const totalWidth = rect.width;
+        if (totalWidth < 100) return; // Ignore zero or tiny transitional widths
+        
+        const isStacked = window.innerWidth < 1280;
+        const availableWidth = (isEditing && !isStacked) ? (totalWidth - 504) : totalWidth;
+        const targetWidth = 820; // 210mm in pixels + safety margins
+        if (availableWidth < targetWidth) {
+          setScale(availableWidth / targetWidth);
+        } else {
+          setScale(1);
+        }
+      }
+    };
+
+    // Run after a short timeout to let layout settle
+    const timer = setTimeout(updateScale, 100);
+
+    window.addEventListener('resize', updateScale);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateScale);
+    };
+  }, [result, isEditing]);
 
   useEffect(() => {
     const fetchResumesList = async () => {
@@ -401,7 +431,7 @@ export default function TailorResume() {
           )}
 
           {/* Right Canvas / Workstation Area */}
-          <div className={`xl:col-span-${isEditing ? '12' : '8'} space-y-6 flex flex-col items-center`}>
+          <div ref={containerRef} className={`space-y-6 flex flex-col items-center w-full min-w-0 ${isEditing ? 'xl:col-span-12' : 'xl:col-span-8'}`}>
             
             {/* Resume Metadata Header (Name Editor) */}
             <div className="w-full max-w-[210mm] p-4 cyber-card border border-[#00FFF0]/15 bg-[#0b1120]/80 flex items-center gap-3.5 no-print">
@@ -449,17 +479,51 @@ export default function TailorResume() {
                 </div>
                 
                 {/* Preview module next to editor */}
-                <div className="flex-1 overflow-x-auto w-full pb-8 flex justify-center">
-                  <div className="tailored-resume live-preview shadow-2xl bg-white border-2 border-[#00FFF0]/30 rounded-sm origin-top" style={{ width: '210mm', minWidth: '210mm', minHeight: '297mm', transform: 'scale(0.8)' }}>
-                    <TemplateRenderer templateId={selectedTemplate} data={result} />
+                <div className="flex-1 w-full pb-8 flex justify-center items-start overflow-auto min-w-0">
+                  <div 
+                    style={{ 
+                      width: `${794 * scale * 0.95}px`,
+                      height: `${297 * 3.7795 * scale * 0.95}px`,
+                      overflow: 'auto'
+                    }}
+                  >
+                    <div 
+                      className="tailored-resume live-preview shadow-2xl bg-white border-2 border-[#00FFF0]/30 rounded-sm" 
+                      style={{ 
+                        width: '210mm', 
+                        minWidth: '210mm', 
+                        minHeight: '297mm', 
+                        transform: `scale(${scale * 0.95})`, 
+                        transformOrigin: 'top left' 
+                      }}
+                    >
+                      <TemplateRenderer templateId={selectedTemplate} data={result} />
+                    </div>
                   </div>
                 </div>
               </div>
             ) : (
               /* Normal Canvas mode */
-              <div className="w-full overflow-x-auto pb-8 flex justify-center">
-                <div className="tailored-resume shadow-2xl bg-white border-2 border-slate-700/60 rounded-sm" style={{ width: '210mm', minWidth: '210mm', minHeight: '297mm' }}>
-                  <TemplateRenderer templateId={selectedTemplate} data={result} />
+              <div className="flex-1 w-full pb-8 flex justify-center items-start overflow-auto min-w-0">
+                <div 
+                  style={{ 
+                    width: `${794 * scale}px`,
+                    height: `${297 * 3.7795 * scale}px`,
+                    overflow: 'auto'
+                  }}
+                >
+                  <div 
+                    className="tailored-resume shadow-2xl bg-white border-2 border-slate-700/60 rounded-sm" 
+                    style={{ 
+                      width: '210mm', 
+                      minWidth: '210mm', 
+                      minHeight: '297mm', 
+                      transform: `scale(${scale})`, 
+                      transformOrigin: 'top left' 
+                    }}
+                  >
+                    <TemplateRenderer templateId={selectedTemplate} data={result} />
+                  </div>
                 </div>
               </div>
             )}

@@ -1,6 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const { z } = require("zod");
 const { logAiRequest } = require("./aiLogger");
+const axios = require("axios");
 
 
 console.log(
@@ -182,6 +183,7 @@ function cleanContentForStableModel(content) {
 }
 
 let useFallbackDirectly = false;
+let useGroqDirectly = false;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function generateWithRetry(fn, retries = 5, delay = 8000) {
@@ -223,9 +225,83 @@ async function generateWithRetry(fn, retries = 5, delay = 8000) {
   }
 }
 
+function convertGeminiToGroqMessages(contents, systemInstruction) {
+  const messages = [];
+  
+  if (systemInstruction) {
+    messages.push({ role: "system", content: systemInstruction });
+  }
+  
+  if (typeof contents === "string") {
+    messages.push({ role: "user", content: contents });
+  } else if (Array.isArray(contents)) {
+    for (const item of contents) {
+      let role = "user";
+      if (item.role === "model" || item.role === "assistant") {
+        role = "assistant";
+      } else if (item.role === "system") {
+        role = "system";
+      }
+      
+      let textContent = "";
+      if (item.parts && Array.isArray(item.parts)) {
+        for (const part of item.parts) {
+          if (part.text) {
+            textContent += part.text;
+          } else if (part.functionResponse) {
+            textContent += JSON.stringify(part.functionResponse);
+          }
+        }
+      } else if (typeof item === "string") {
+        textContent = item;
+      }
+      
+      messages.push({ role, content: textContent });
+    }
+  }
+  
+  return messages;
+}
+
+async function callGroqCompletion(contents, config) {
+  if (!process.env.GROQ_API_KEY) {
+    throw new Error("GROQ_API_KEY is not defined");
+  }
+  
+  const systemInstruction = config && config.systemInstruction;
+  const messages = convertGeminiToGroqMessages(contents, systemInstruction);
+  
+  console.log("Routing structured completion fallback to Groq...");
+  const response = await axios.post(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      model: "llama-3.3-70b-versatile",
+      messages: messages,
+      response_format: config && config.responseMimeType === "application/json" ? { type: "json_object" } : undefined
+    },
+    {
+      headers: {
+        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+        "Content-Type": "application/json"
+      }
+    }
+  );
+  
+  return {
+    text: response.data.choices[0].message.content,
+    usageMetadata: {
+      promptTokenCount: response.data.usage ? response.data.usage.prompt_tokens : 0,
+      candidatesTokenCount: response.data.usage ? response.data.usage.completion_tokens : 0
+    }
+  };
+}
+
 async function generateContentWithFallback({ model = "gemini-3-flash-preview", contents, config, userId = null, feature = "AI Services" }) {
   const startTime = Date.now();
   let finalModelUsed = model;
+  const hasGroq = !!process.env.GROQ_API_KEY;
+  const maxRetries = hasGroq ? 1 : 5;
+  const retryDelay = hasGroq ? 1000 : 8000;
 
   const makeCall = async (targetModel) => {
     finalModelUsed = targetModel;
@@ -238,8 +314,42 @@ async function generateContentWithFallback({ model = "gemini-3-flash-preview", c
 
   const selectedModel = useFallbackDirectly ? "gemini-2.5-flash" : model;
 
+  // If we've already determined that Gemini is entirely exhausted, route directly to Groq if key is available
+  if (useGroqDirectly && process.env.GROQ_API_KEY) {
+    console.warn("Directly routing to Groq due to previous Gemini quota exhaustion...");
+    finalModelUsed = "llama-3.3-70b-versatile";
+    try {
+      const response = await callGroqCompletion(contents, config);
+      const latencyMs = Date.now() - startTime;
+      logAiRequest({
+        provider: "Groq",
+        model: finalModelUsed,
+        user: userId,
+        feature,
+        inputTokens: response.usageMetadata.promptTokenCount,
+        outputTokens: response.usageMetadata.candidatesTokenCount,
+        latencyMs,
+        success: true
+      });
+      return response;
+    } catch (groqError) {
+      console.error("Groq fallback call failed:", groqError);
+      const latencyMs = Date.now() - startTime;
+      logAiRequest({
+        provider: "Groq",
+        model: finalModelUsed,
+        user: userId,
+        feature,
+        latencyMs,
+        success: false,
+        errorMessage: groqError.message
+      });
+      throw groqError;
+    }
+  }
+
   try {
-    const response = await generateWithRetry(() => makeCall(selectedModel), 5, 8000);
+    const response = await generateWithRetry(() => makeCall(selectedModel), maxRetries, retryDelay);
     const latencyMs = Date.now() - startTime;
     let inputTokens = 0;
     let outputTokens = 0;
@@ -262,10 +372,11 @@ async function generateContentWithFallback({ model = "gemini-3-flash-preview", c
 
     return response;
   } catch (error) {
+    // If Gemini primary fails, fallback to Gemini secondary or Groq
     if (selectedModel !== "gemini-2.5-flash") {
       console.warn(`${selectedModel} failed, falling back to gemini-2.5-flash. Error:`, error.message);
       try {
-        const response = await generateWithRetry(() => makeCall("gemini-2.5-flash"), 5, 8000);
+        const response = await generateWithRetry(() => makeCall("gemini-2.5-flash"), maxRetries, retryDelay);
         const latencyMs = Date.now() - startTime;
         let inputTokens = 0;
         let outputTokens = 0;
@@ -288,6 +399,31 @@ async function generateContentWithFallback({ model = "gemini-3-flash-preview", c
 
         return response;
       } catch (fallbackError) {
+        // Fallback to gemini-2.5-flash also failed. Let's try Groq!
+        if (process.env.GROQ_API_KEY) {
+          console.warn("Gemini 2.5 flash also failed. Routing fallback to Groq. Error:", fallbackError.message);
+          useGroqDirectly = true;
+          finalModelUsed = "llama-3.3-70b-versatile";
+          try {
+            const response = await callGroqCompletion(contents, config);
+            const latencyMs = Date.now() - startTime;
+            logAiRequest({
+              provider: "Groq",
+              model: finalModelUsed,
+              user: userId,
+              feature,
+              inputTokens: response.usageMetadata.promptTokenCount,
+              outputTokens: response.usageMetadata.candidatesTokenCount,
+              latencyMs,
+              success: true
+            });
+            return response;
+          } catch (groqError) {
+            console.error("Groq fallback also failed after Gemini failure:", groqError);
+            throw groqError;
+          }
+        }
+        
         console.error("Fallback to gemini-2.5-flash also failed:", fallbackError);
         const latencyMs = Date.now() - startTime;
         logAiRequest({
@@ -300,6 +436,31 @@ async function generateContentWithFallback({ model = "gemini-3-flash-preview", c
           errorMessage: fallbackError.message
         });
         throw fallbackError;
+      }
+    } else {
+      // Selected model was already gemini-2.5-flash, and it failed. Try Groq!
+      if (process.env.GROQ_API_KEY) {
+        console.warn("Gemini 2.5 flash failed. Routing fallback to Groq. Error:", error.message);
+        useGroqDirectly = true;
+        finalModelUsed = "llama-3.3-70b-versatile";
+        try {
+          const response = await callGroqCompletion(contents, config);
+          const latencyMs = Date.now() - startTime;
+          logAiRequest({
+            provider: "Groq",
+            model: finalModelUsed,
+            user: userId,
+            feature,
+            inputTokens: response.usageMetadata.promptTokenCount,
+            outputTokens: response.usageMetadata.candidatesTokenCount,
+            latencyMs,
+            success: true
+          });
+          return response;
+        } catch (groqError) {
+          console.error("Groq fallback failed:", groqError);
+          throw groqError;
+        }
       }
     }
     const latencyMs = Date.now() - startTime;
